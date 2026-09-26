@@ -1,0 +1,22 @@
+# Environment & Database
+.env
+*.db
+*.sqlite
+*.sqlite3
+
+# Python Bytecode & Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Ignore docs, plans and root markdown files as requested
+docs/
+*.md
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
