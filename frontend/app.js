@@ -386,18 +386,21 @@ function renderSpendBudgetsPage() {
   cont.innerHTML = Object.values(state.agents).map(a => {
     const pct = Math.min(100, Math.round((a.currentSpend / a.dailyCap) * 100));
     return `
-      <div style="background: #ffffff; border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow-xs);">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <strong style="color: var(--text-primary); font-size: 0.95rem;">${a.name}</strong>
-          <span style="font-family: monospace; font-size: 0.85rem; color: var(--accent-primary); font-weight: 700;">${formatInr(a.currentSpend)} / ${formatInr(a.dailyCap)}</span>
+      <div style="background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <strong style="color: #000000; font-size: 0.88rem; font-weight: 800;">${a.name}</strong>
+            <span style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">${a.id}</span>
+          </div>
+          <span style="font-family: monospace; font-size: 0.85rem; color: #000000; font-weight: 800;">${formatInr(a.currentSpend)} <span style="color: var(--text-muted); font-weight: 500;">/ ${formatInr(a.dailyCap)}</span></span>
         </div>
-        <div class="meter-container">
+        <div class="meter-container" style="height: 6px;">
           <div class="meter-fill ${pct > 80 ? 'rose' : ''}" style="width: ${pct}%;"></div>
         </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 6px;">
-          <span>Single Limit: ${formatInr(a.singleLimit)}</span>
-          <span style="font-weight: 600;">${pct}% daily cap utilized</span>
-          <span style="color: var(--accent-primary); font-weight: 600;">${formatInr(a.dailyCap - a.currentSpend)} available</span>
+        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-secondary); margin-top: 6px;">
+          <span>Single Limit: <strong style="color: #000000;">${formatInr(a.singleLimit)}</strong></span>
+          <span style="font-weight: 700; color: #000000;">${pct}% committed</span>
+          <span style="color: var(--accent-primary); font-weight: 700;">${formatInr(a.dailyCap - a.currentSpend)} Headroom</span>
         </div>
       </div>
     `;
