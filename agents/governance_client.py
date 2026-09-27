@@ -12,11 +12,13 @@ class GovernanceClient:
     """
     Dedicated client for communicating with Person 1's FastAPI Governance Gateway.
     Target Endpoint: POST /api/governance/evaluate
+    Registration Endpoint: POST /api/agents/register
     """
     def __init__(self, base_url: str = "http://localhost:8000", timeout: float = 5.0):
         self.base_url = base_url.rstrip("/")
         self.evaluate_url = f"{self.base_url}/api/governance/evaluate"
         self.agents_url = f"{self.base_url}/api/agents"
+        self.register_url = f"{self.base_url}/api/agents/register"
         self.timeout = timeout
 
     def evaluate_action(self, action_request: Dict[str, Any]) -> Dict[str, Any]:
@@ -95,6 +97,23 @@ class GovernanceClient:
                 reason=f"Unexpected client exception: {str(e)}",
                 error_details=str(e)
             )
+
+    def register_agent(self, agent_config: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Registers a new agent policy profile via Person 1's POST /api/agents/register endpoint.
+        """
+        try:
+            resp = requests.post(
+                self.register_url,
+                json=agent_config,
+                headers={"Content-Type": "application/json"},
+                timeout=self.timeout
+            )
+            if resp.status_code in [200, 201]:
+                return resp.json()
+            return {"error": f"HTTP {resp.status_code}: {resp.text}"}
+        except Exception as e:
+            return {"error": str(e)}
 
     def check_agent_exists(self, agent_id: str) -> bool:
         """
