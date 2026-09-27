@@ -15,9 +15,10 @@
   --border-card: #e2e8f0;
   --border-card-hover: #cbd5e1;
 
-  /* Typography */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
+  /* Typography (True Bold Black Contrast for Impactful Readability) */
+  --text-primary: #000000;
+  --text-headline: #000000;
+  --text-secondary: #334155;
   --text-muted: #64748b;
   --text-subtle: #94a3b8;
 
@@ -27,7 +28,7 @@
   --accent-primary-border: #a7f3d0;
   --accent-mint-gradient: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.03) 100%);
   
-  --dark-btn: #0f172a;
+  --dark-btn: #000000;
   --dark-btn-hover: #1e293b;
 
   /* Status Colors (Subtle & Restrained) */
@@ -562,6 +563,272 @@ body {
   transform: translateY(-2px);
 }
 
+/* Typography Baseline (Bold Black Contrasts) */
+h1, h2, h3, h4, h5, h6 {
+  color: #000000;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+strong, b {
+  color: #000000;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   FINTECH HERO BANNER (INSPIRED BY CLEAN FINTECH REFERENCE)
+   ========================================================================== */
+.hero-fintech-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 34px 38px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 32px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+.hero-fintech-card::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #000000;
+  background: var(--accent-primary-light);
+  border: 1px solid var(--accent-primary-border);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+}
+
+.hero-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: #000000;
+  margin-bottom: 12px;
+}
+
+.hero-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 520px;
+  margin-bottom: 20px;
+}
+
+.hero-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.hero-stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-number {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #000000;
+  line-height: 1.1;
+}
+
+.hero-stat-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.hero-mockup-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.hero-mockup-frame {
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(16, 185, 129, 0.1);
+  background: #ffffff;
+  transition: transform var(--transition-smooth);
+}
+
+.hero-mockup-frame:hover {
+  transform: translateY(-4px);
+}
+
+.hero-mockup-frame img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-mockup-overlay-badge {
+  position: absolute;
+  bottom: -10px;
+  right: 14px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Feature 3-Grid (Highlighting in pure bold black) */
+.feature-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.feature-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-fast);
+}
+
+.feature-card:hover {
+  border-color: var(--border-card-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.feature-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--accent-primary-light);
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.feature-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 6px;
+  letter-spacing: -0.015em;
+}
+
+.feature-card-desc {
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* Operator Oversight Trust Banner */
+.operator-trust-banner {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 26px 32px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 140px 1fr 280px;
+  gap: 26px;
+  align-items: center;
+  box-shadow: var(--shadow-card);
+}
+
+.operator-portrait-img {
+  width: 140px;
+  height: 140px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Toggle Switch for Standard Settings */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #059669;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
 /* ==========================================================================
    STAT WIDGETS
    ========================================================================== */
@@ -634,10 +901,10 @@ body {
 }
 
 .stat-value {
-  font-size: 1.85rem;
+  font-size: 2.1rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
+  letter-spacing: -0.035em;
+  color: #000000;
   line-height: 1.1;
   margin-bottom: 6px;
 }
