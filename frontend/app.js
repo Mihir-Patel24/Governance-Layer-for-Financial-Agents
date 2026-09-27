@@ -229,17 +229,14 @@ function renderAgentFleetPage() {
   // Cards
   cardsCont.innerHTML = agentList.map(a => {
     const pct = Math.min(100, Math.round((a.currentSpend / a.dailyCap) * 100));
-    let colorClass = "cyan";
-    if (a.type === "servicing") colorClass = "purple";
-    if (a.type === "rewards") colorClass = "gold";
 
     return `
       <div class="glass-panel glass-panel-hover" style="display: flex; flex-direction: column; gap: 14px;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
           <div>
-            <span style="font-size: 0.72rem; color: #94a3b8; font-family: monospace;">${a.id}</span>
-            <h4 style="font-size: 1.15rem; font-weight: 800; color: #ffffff;">${a.name}</h4>
-            <span style="font-size: 0.75rem; color: #64748b;">${a.role}</span>
+            <span style="font-size: 0.72rem; color: var(--text-muted); font-family: monospace;">${a.id}</span>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">${a.name}</h4>
+            <span style="font-size: 0.75rem; color: var(--text-secondary);">${a.role}</span>
           </div>
           <span class="badge ${a.status === 'ACTIVE' ? 'badge-active' : a.status === 'PAUSED' ? 'badge-paused' : 'badge-terminated'}">
             &bull; ${a.status}
@@ -248,26 +245,26 @@ function renderAgentFleetPage() {
 
         <div>
           <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
-            <span style="color: #94a3b8;">Daily Spend Utilized</span>
-            <strong style="color: #ffffff;">${formatInr(a.currentSpend)} / ${formatInr(a.dailyCap)} (${pct}%)</strong>
+            <span style="color: var(--text-muted);">Daily Spend Utilized</span>
+            <strong style="color: var(--text-primary);">${formatInr(a.currentSpend)} / ${formatInr(a.dailyCap)} (${pct}%)</strong>
           </div>
           <div class="meter-container">
-            <div class="meter-fill ${colorClass}" style="width: ${pct}%;"></div>
+            <div class="meter-fill" style="width: ${pct}%;"></div>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: rgba(255, 255, 255, 0.02); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-card); text-align: center;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: #f8fafc; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); text-align: center;">
           <div>
-            <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">${a.actionsCount}</div>
-            <div style="font-size: 0.65rem; color: #64748b; text-transform: uppercase;">Actions</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">${a.actionsCount}</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Actions</div>
           </div>
           <div>
-            <div style="font-size: 1.1rem; font-weight: 800; color: #fb7185;">${a.blockedCount}</div>
-            <div style="font-size: 0.65rem; color: #64748b; text-transform: uppercase;">Blocked</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--status-blocked);">${a.blockedCount}</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Blocked</div>
           </div>
           <div>
-            <div style="font-size: 1.1rem; font-weight: 800; color: #fbbf24;">${a.anomaliesCount}</div>
-            <div style="font-size: 0.65rem; color: #64748b; text-transform: uppercase;">Anomalies</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--status-hitl);">${a.anomaliesCount}</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Anomalies</div>
           </div>
         </div>
 
@@ -275,7 +272,7 @@ function renderAgentFleetPage() {
           <button class="btn-secondary" style="flex: 1; font-size: 0.75rem; justify-content: center;" onclick="toggleAgentPause('${a.id}')">
             ${a.status === 'ACTIVE' ? 'Pause Agent' : 'Resume Agent'}
           </button>
-          <button class="btn-danger" style="font-size: 0.75rem; padding: 8px 12px;" onclick="terminateAgent('${a.id}')">
+          <button class="btn-danger" style="font-size: 0.75rem; padding: 8px 14px;" onclick="terminateAgent('${a.id}')">
             Halt
           </button>
         </div>
@@ -286,21 +283,21 @@ function renderAgentFleetPage() {
   // Table
   tableCont.innerHTML = agentList.map(a => `
     <tr>
-      <td style="font-family: monospace; font-weight: 700; color: #38bdf8;">${a.id}</td>
-      <td><strong>${a.name}</strong><br><span style="font-size: 0.7rem; color: #64748b;">${a.role}</span></td>
+      <td style="font-family: monospace; font-weight: 700; color: var(--accent-primary);">${a.id}</td>
+      <td><strong>${a.name}</strong><br><span style="font-size: 0.7rem; color: var(--text-muted);">${a.role}</span></td>
       <td style="font-family: monospace; font-weight: 700;">${formatInr(a.singleLimit)}</td>
       <td style="font-family: monospace; font-weight: 700;">${formatInr(a.dailyCap)}</td>
       <td>
-        ${a.allowedActions.map(act => `<code style="background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-right: 4px;">${act}</code>`).join("")}
+        ${a.allowedActions.map(act => `<code style="background: #f1f5f9; color: var(--text-primary); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-right: 4px;">${act}</code>`).join("")}
       </td>
-      <td style="font-size: 0.75rem; color: #94a3b8;">${a.operatingHours}</td>
+      <td style="font-size: 0.75rem; color: var(--text-secondary);">${a.operatingHours}</td>
       <td>
         <span class="badge ${a.status === 'ACTIVE' ? 'badge-active' : a.status === 'PAUSED' ? 'badge-paused' : 'badge-terminated'}">
           &bull; ${a.status}
         </span>
       </td>
       <td>
-        <button class="btn-secondary" style="font-size: 0.7rem; padding: 4px 8px;" onclick="toggleAgentPause('${a.id}')">Toggle</button>
+        <button class="btn-secondary" style="font-size: 0.7rem; padding: 4px 10px;" onclick="toggleAgentPause('${a.id}')">Toggle</button>
       </td>
     </tr>
   `).join("");
@@ -323,14 +320,14 @@ function renderLiveActionsTable() {
 
     return `
       <tr onclick="openExplainerModal('${row.id}')" title="Click to view AI reason and SHA-256 block hash">
-        <td style="font-family: monospace; color: #94a3b8; font-size: 0.75rem;">${row.timestamp}</td>
-        <td style="font-family: monospace; font-size: 0.75rem; color: #38bdf8;">${row.id}</td>
+        <td style="font-family: monospace; color: var(--text-muted); font-size: 0.75rem;">${row.timestamp}</td>
+        <td style="font-family: monospace; font-size: 0.75rem; color: var(--accent-primary); font-weight: 600;">${row.id}</td>
         <td><strong>${row.agentName}</strong></td>
-        <td><code style="background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">${row.actionType}</code></td>
+        <td><code style="background: #f1f5f9; color: var(--text-primary); padding: 2px 6px; border-radius: 4px;">${row.actionType}</code></td>
         <td style="font-family: monospace; font-weight: 700;">${formatInr(row.amount)}</td>
         <td><span class="badge ${badgeClass}">${row.verdict}</span></td>
-        <td style="font-family: monospace; font-weight: 700; color: ${row.riskScore > 0.7 ? '#fb7185' : '#34d399'};">${row.riskScore.toFixed(2)}</td>
-        <td style="color: #94a3b8; font-size: 0.75rem; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${row.reason}</td>
+        <td style="font-family: monospace; font-weight: 700; color: ${row.riskScore > 0.7 ? 'var(--status-blocked)' : 'var(--accent-primary)'};">${row.riskScore.toFixed(2)}</td>
+        <td style="color: var(--text-muted); font-size: 0.75rem; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${row.reason}</td>
       </tr>
     `;
   }).join("");
@@ -347,34 +344,34 @@ function renderPoliciesPage() {
   if (!cont) return;
 
   cont.innerHTML = Object.values(state.agents).map(a => `
-    <div style="background: #0d1422; border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px;">
+    <div style="background: #ffffff; border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow-xs);">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
         <div>
-          <h4 style="font-size: 1.05rem; font-weight: 800; color: #ffffff;">${a.name}</h4>
-          <span style="font-size: 0.72rem; color: #64748b; font-family: monospace;">ID: ${a.id}</span>
+          <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-primary);">${a.name}</h4>
+          <span style="font-size: 0.72rem; color: var(--text-muted); font-family: monospace;">ID: ${a.id}</span>
         </div>
         <span class="badge ${a.status === 'ACTIVE' ? 'badge-active' : 'badge-paused'}">&bull; ${a.status}</span>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 0.78rem; margin-bottom: 12px;">
-        <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px;">
-          <span style="color: #94a3b8; display: block;">Single Tx Ceiling</span>
-          <strong style="font-size: 0.95rem; color: #ffffff;">${formatInr(a.singleLimit)}</strong>
+        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid var(--border-light);">
+          <span style="color: var(--text-muted); display: block; font-size: 0.7rem;">Single Tx Ceiling</span>
+          <strong style="font-size: 0.95rem; color: var(--text-primary);">${formatInr(a.singleLimit)}</strong>
         </div>
-        <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px;">
-          <span style="color: #94a3b8; display: block;">Daily Cap</span>
-          <strong style="font-size: 0.95rem; color: #ffffff;">${formatInr(a.dailyCap)}</strong>
+        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid var(--border-light);">
+          <span style="color: var(--text-muted); display: block; font-size: 0.7rem;">Daily Cap</span>
+          <strong style="font-size: 0.95rem; color: var(--text-primary);">${formatInr(a.dailyCap)}</strong>
         </div>
-        <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px;">
-          <span style="color: #94a3b8; display: block;">Allowed Hours</span>
-          <strong style="font-size: 0.95rem; color: #ffffff;">${a.operatingHours}</strong>
+        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid var(--border-light);">
+          <span style="color: var(--text-muted); display: block; font-size: 0.7rem;">Allowed Hours</span>
+          <strong style="font-size: 0.95rem; color: var(--text-primary);">${a.operatingHours}</strong>
         </div>
       </div>
 
       <div>
-        <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Whitelisted Actions:</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Whitelisted Actions:</span>
         <div style="display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap;">
-          ${a.allowedActions.map(act => `<span style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-family: monospace;">${act}</span>`).join("")}
+          ${a.allowedActions.map(act => `<span style="background: var(--accent-primary-light); color: var(--accent-primary); border: 1px solid var(--accent-primary-border); padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-family: monospace; font-weight: 600;">${act}</span>`).join("")}
         </div>
       </div>
     </div>
@@ -389,18 +386,18 @@ function renderSpendBudgetsPage() {
   cont.innerHTML = Object.values(state.agents).map(a => {
     const pct = Math.min(100, Math.round((a.currentSpend / a.dailyCap) * 100));
     return `
-      <div style="background: #0d1422; border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px;">
+      <div style="background: #ffffff; border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow-xs);">
         <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <strong style="color: #ffffff; font-size: 0.95rem;">${a.name}</strong>
-          <span style="font-family: monospace; font-size: 0.85rem; color: #34d399;">${formatInr(a.currentSpend)} / ${formatInr(a.dailyCap)}</span>
+          <strong style="color: var(--text-primary); font-size: 0.95rem;">${a.name}</strong>
+          <span style="font-family: monospace; font-size: 0.85rem; color: var(--accent-primary); font-weight: 700;">${formatInr(a.currentSpend)} / ${formatInr(a.dailyCap)}</span>
         </div>
         <div class="meter-container">
-          <div class="meter-fill ${pct > 80 ? 'rose' : pct > 60 ? 'gold' : 'cyan'}" style="width: ${pct}%;"></div>
+          <div class="meter-fill ${pct > 80 ? 'rose' : ''}" style="width: ${pct}%;"></div>
         </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #94a3b8; margin-top: 6px;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 6px;">
           <span>Single Limit: ${formatInr(a.singleLimit)}</span>
-          <span>${pct}% daily cap utilized</span>
-          <span style="color: #38bdf8;">${formatInr(a.dailyCap - a.currentSpend)} available</span>
+          <span style="font-weight: 600;">${pct}% daily cap utilized</span>
+          <span style="color: var(--accent-primary); font-weight: 600;">${formatInr(a.dailyCap - a.currentSpend)} available</span>
         </div>
       </div>
     `;
@@ -413,10 +410,10 @@ function renderKillSwitchPage() {
   if (!cont) return;
 
   cont.innerHTML = Object.values(state.agents).map(a => `
-    <div class="glass-panel" style="text-align: center; border-color: ${a.status === 'ACTIVE' ? 'var(--border-card)' : 'rgba(239, 68, 68, 0.4)'};">
+    <div class="glass-panel" style="text-align: center; border-color: ${a.status === 'ACTIVE' ? 'var(--border-card)' : 'var(--status-blocked-border)'};">
       <div style="font-size: 1.4rem; margin-bottom: 6px;">${a.type === 'travel' ? '✈️' : a.type === 'servicing' ? '🎧' : '🎁'}</div>
-      <h4 style="font-size: 1rem; font-weight: 700; color: #ffffff;">${a.name}</h4>
-      <span style="font-size: 0.72rem; color: #94a3b8; font-family: monospace;">${a.id}</span>
+      <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-primary);">${a.name}</h4>
+      <span style="font-size: 0.72rem; color: var(--text-muted); font-family: monospace;">${a.id}</span>
       <div style="margin: 14px 0;">
         <span class="badge ${a.status === 'ACTIVE' ? 'badge-active' : 'badge-terminated'}">&bull; ${a.status}</span>
       </div>
@@ -439,25 +436,26 @@ function renderAuditChainExplorer() {
     <div class="hash-chain-node">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 0.72rem; font-family: monospace;">BLOCK #${state.actions.length - idx}</span>
-          <strong style="color: #ffffff; font-size: 0.88rem;">${blk.agentName} &bull; ${blk.actionDesc}</strong>
+          <span style="background: var(--accent-primary-light); color: var(--accent-primary); border: 1px solid var(--accent-primary-border); padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 0.72rem; font-family: monospace;">BLOCK #${state.actions.length - idx}</span>
+          <strong style="color: var(--text-primary); font-size: 0.88rem;">${blk.agentName} &bull; ${blk.actionDesc}</strong>
         </div>
-        <span style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">${blk.timestamp}</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">${blk.timestamp}</span>
       </div>
 
-      <div style="display: flex; gap: 16px; font-size: 0.76rem; color: #94a3b8;">
-        <span>Amount: <strong style="color: #ffffff;">${formatInr(blk.amount)}</strong></span>
-        <span>Verdict: <strong style="color: ${blk.verdict === 'ALLOW' ? '#34d399' : '#fb7185'};">${blk.verdict}</strong></span>
-        <span>ML Risk Score: <strong style="color: #fbbf24;">${blk.riskScore}</strong></span>
+      <div style="display: flex; gap: 16px; font-size: 0.76rem; color: var(--text-secondary);">
+        <span>Amount: <strong style="color: var(--text-primary);">${formatInr(blk.amount)}</strong></span>
+        <span>Verdict: <strong style="color: ${blk.verdict === 'ALLOW' ? 'var(--status-allowed)' : 'var(--status-blocked)'};">${blk.verdict}</strong></span>
+        <span>ML Risk Score: <strong style="color: var(--status-hitl);">${blk.riskScore}</strong></span>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 3px; margin-top: 4px;">
-        <span style="font-size: 0.65rem; color: #64748b; font-family: monospace;">PREV_HASH: ${blk.prevHash}</span>
+        <span style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace;">PREV_HASH: ${blk.prevHash}</span>
         <span class="hash-text">CURRENT_HASH: ${blk.auditHash}</span>
       </div>
     </div>
   `).join("");
 }
+
 
 // ============================================================================
 // EXPLAINER MODAL & VERIFICATION
