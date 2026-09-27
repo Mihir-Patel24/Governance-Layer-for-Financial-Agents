@@ -110,17 +110,3 @@ class RewardsAgent(BaseAgent):
             results.append(state)
             self._print_execution_feedback(state)
         return results
-
-    def _print_execution_feedback(self, state: AgentState):
-        verdict = state.get("verdict")
-        action = state.get("current_action", {})
-        act_type = action.get("action_type")
-
-        if verdict == "ALLOW":
-            print(f"  [EXECUTION] Simulated Rewards Action '{act_type}' COMPLETED successfully.")
-        elif verdict == "BLOCK":
-            print(f"  [GOVERNANCE BLOCK] Rewards Action '{act_type}' BLOCKED by governance policy.")
-        elif verdict == "HITL_REQUIRED":
-            print(f"  [HITL REQUIRED] Rewards Action '{act_type}' PENDING HUMAN APPROVAL.")
-        else:
-            print(f"  [ERROR] Rewards Action '{act_type}' FAILED execution.")

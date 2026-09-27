@@ -75,3 +75,26 @@ class BaseAgent:
             self.history = final_state["history"]
 
         return final_state
+
+    def _print_execution_feedback(self, state: AgentState):
+        """
+        Helper method to print explicit, unambiguous execution feedback for each action.
+        """
+        verdict = state.get("verdict")
+        action = state.get("current_action", {})
+        act_type = action.get("action_type")
+        amount = action.get("amount", 0.0)
+
+        if verdict == "ALLOW":
+            exec_str = "EXECUTED"
+        elif verdict == "BLOCK":
+            exec_str = "NOT EXECUTED / BLOCKED"
+        elif verdict == "HITL_REQUIRED":
+            exec_str = "PENDING APPROVAL"
+        else:
+            exec_str = "FAILED"
+
+        print(f"  Action     : {act_type}")
+        print(f"  Amount     : Rs.{amount:,.2f}")
+        print(f"  Governance : {verdict}")
+        print(f"  Execution  : {exec_str}\n")
