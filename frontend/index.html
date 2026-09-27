@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SentinelAI — Governance Layer for Financial Agents</title>
-  <meta name="description" content="Real-time governance, spend caps, ML anomaly detection, and tamper-evident audit ledger for autonomous financial AI agents.">
+  <meta name="description" content="Multi-tier runtime governance, spend caps, ML anomaly detection, and cryptographic audit ledger for autonomous financial AI agents.">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbbf24'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.67-3.13 9.04-7 10.18-3.87-1.14-7-5.51-7-10.18V6.3l7-3.12z'/></svg>">
 </head>
@@ -13,14 +13,14 @@
   <div class="app-container">
     
     <!-- ====================================================================
-         LEFT SIDEBAR
+         LEFT SIDEBAR (MATCHES SCREENSHOT EXACTLY)
          ==================================================================== -->
     <aside class="sidebar">
       
-      <!-- Brand Logo -->
-      <div class="sidebar-logo">
-        <div class="logo-icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Logo -->
+      <div class="sidebar-logo" onclick="switchPage('command-center')">
+        <div class="logo-shield-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path d="M9 12l2 2 4-4"/>
           </svg>
@@ -31,11 +31,11 @@
         </div>
       </div>
 
-      <!-- Navigation Links -->
+      <!-- Nav Items -->
       <nav class="sidebar-nav">
         
         <div class="nav-group">
-          <a class="nav-item active" id="nav-command-center" onclick="setActiveNav('nav-command-center')">
+          <a class="nav-item active" id="nav-command-center" onclick="switchPage('command-center')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
               <polyline points="9 22 9 12 15 12 15 22"/>
@@ -47,7 +47,7 @@
         <div class="nav-group">
           <div class="nav-section-title">MONITOR</div>
           
-          <a class="nav-item" id="nav-agent-fleet" onclick="setActiveNav('nav-agent-fleet'); scrollToElement('section-agent-fleet');">
+          <a class="nav-item" id="nav-agent-fleet" onclick="switchPage('agent-fleet')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
@@ -57,24 +57,24 @@
             Agent Fleet
           </a>
 
-          <a class="nav-item" id="nav-live-actions" onclick="setActiveNav('nav-live-actions'); scrollToElement('section-live-feed');">
+          <a class="nav-item" id="nav-live-actions" onclick="switchPage('live-actions')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
             </svg>
             Live Actions
           </a>
 
-          <a class="nav-item" id="nav-alerts" onclick="setActiveNav('nav-alerts'); scrollToElement('section-recent-alerts');">
+          <a class="nav-item" id="nav-alerts-incidents" onclick="switchPage('alerts-incidents')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
               <line x1="12" y1="9" x2="12" y2="13"/>
               <line x1="12" y1="17" x2="12.01" y2="17"/>
             </svg>
             Alerts &amp; Incidents
-            <span class="nav-badge" id="sidebar-alert-badge">3</span>
+            <span class="nav-badge-pill">3</span>
           </a>
 
-          <a class="nav-item" id="nav-analytics" onclick="setActiveNav('nav-analytics'); openModal('modal-audit-ledger');">
+          <a class="nav-item" id="nav-analytics" onclick="switchPage('analytics')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="20" x2="18" y2="10"/>
               <line x1="12" y1="20" x2="12" y2="4"/>
@@ -87,14 +87,14 @@
         <div class="nav-group">
           <div class="nav-section-title">GOVERNANCE</div>
           
-          <a class="nav-item" id="nav-policies" onclick="setActiveNav('nav-policies'); openModal('modal-policies');">
+          <a class="nav-item" id="nav-policies-rules" onclick="switchPage('policies-rules')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
             Policies &amp; Rules
           </a>
 
-          <a class="nav-item" id="nav-spend" onclick="setActiveNav('nav-spend'); openModal('modal-policies');">
+          <a class="nav-item" id="nav-spend-budgets" onclick="switchPage('spend-budgets')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
@@ -103,7 +103,7 @@
             Spend &amp; Budgets
           </a>
 
-          <a class="nav-item" id="nav-killswitch" onclick="setActiveNav('nav-killswitch'); scrollToElement('section-emergency-stop');">
+          <a class="nav-item" id="nav-kill-switch" onclick="switchPage('kill-switch')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <line x1="12" y1="8" x2="12" y2="12"/>
@@ -116,18 +116,15 @@
         <div class="nav-group">
           <div class="nav-section-title">AUDIT &amp; COMPLIANCE</div>
           
-          <a class="nav-item" id="nav-audit" onclick="setActiveNav('nav-audit'); openModal('modal-audit-ledger');">
+          <a class="nav-item" id="nav-audit-ledger" onclick="switchPage('audit-ledger')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
             </svg>
             Audit Ledger
           </a>
 
-          <a class="nav-item" id="nav-reports" onclick="setActiveNav('nav-reports'); exportComplianceCSV();">
+          <a class="nav-item" id="nav-reports" onclick="switchPage('reports')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
@@ -140,7 +137,7 @@
         <div class="nav-group">
           <div class="nav-section-title">ADMIN</div>
           
-          <a class="nav-item" id="nav-management" onclick="setActiveNav('nav-management'); openModal('modal-policies');">
+          <a class="nav-item" id="nav-agent-management" onclick="switchPage('agent-management')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
@@ -150,7 +147,7 @@
             Agent Management
           </a>
 
-          <a class="nav-item" id="nav-settings" onclick="setActiveNav('nav-settings'); toggleBackendMode();">
+          <a class="nav-item" id="nav-system-settings" onclick="switchPage('system-settings')">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="3"/>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -160,11 +157,14 @@
         </div>
       </nav>
 
-      <!-- Sidebar Mountain Quote Card -->
-      <div class="sidebar-quote-card" style="background-image: url('assets/sidebar_mountain.jpg');">
-        <div class="quote-content">
-          <div class="quote-title">A seatbelt for AI agents.</div>
-          <div class="quote-subtitle">Control today. Confident tomorrow.</div>
+      <!-- Sidebar Status Footer -->
+      <div class="sidebar-footer">
+        <div class="sidebar-live-pill">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="live-pulse-dot"></span>
+            <span style="font-weight: 700;">FAIL-CLOSED ACTIVE</span>
+          </div>
+          <span style="color: #6ee7b7; font-family: monospace;">&lt;15ms</span>
         </div>
       </div>
 
@@ -172,643 +172,881 @@
 
 
     <!-- ====================================================================
-         MAIN APP CONTENT WRAPPER
+         MAIN VIEWPORT
          ==================================================================== -->
     <main class="main-wrapper">
       
-      <!-- Top Navigation Bar -->
+      <!-- Top Navigation Header -->
       <header class="topbar">
         <div class="topbar-left">
-          <div class="search-container">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
               <circle cx="11" cy="11" r="8"/>
               <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input type="text" class="search-input" id="global-search-input" placeholder="Search agents, transactions, policies..." onkeyup="filterFeedTable(this.value)">
+            <input type="text" class="search-input" id="global-search" placeholder="Search agents, policies, transactions, SHA-256 hashes..." onkeyup="handleGlobalSearch(this.value)">
             <span class="search-shortcut">Ctrl K</span>
           </div>
         </div>
 
         <div class="topbar-right">
-          <!-- Backend Connection Status Pill -->
-          <div class="status-indicator" id="system-status-indicator" title="Connected to SentinelAI Unified Governance Gateway">
-            <span class="status-dot"></span>
-            <span id="system-status-text">All systems operational</span>
-          </div>
+          <button class="btn-header-action" onclick="openTestSimulatorModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <span>Simulate Action</span>
+          </button>
 
-          <!-- Notification Bell -->
-          <button class="topbar-btn" onclick="scrollToElement('section-recent-alerts')" title="3 unread security alerts">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button class="btn-icon" onclick="switchPage('alerts-incidents')" title="Security Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
             </svg>
-            <span class="badge-alert">3</span>
+            <span class="nav-badge-pill" style="position: absolute; top: -3px; right: -3px; font-size: 0.55rem; padding: 1px 5px;">3</span>
           </button>
 
-          <!-- User Avatar Profile -->
-          <div class="user-profile" title="Administrator Profile">
+          <div class="avatar-badge" onclick="switchPage('system-settings')">
             <div class="avatar-circle">SN</div>
-            <span class="user-name">Admin</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #f1f5f9;">Admin</span>
           </div>
         </div>
       </header>
 
-      <!-- Main Body Container -->
-      <div class="content-body">
+      <!-- Viewport Body: Switches between dedicated pages -->
+      <div class="page-viewport">
         
-        <!-- ==================================================================
-             HERO BANNER
-             ================================================================== -->
-        <section class="hero-banner" style="background-image: url('assets/hero_building.jpg');">
-          <div class="hero-overlay"></div>
+        <!-- ================================================================
+             PAGE 1: COMMAND CENTER (EXECUTIVE OVERVIEW)
+             ================================================================ -->
+        <section class="page-view active-page" id="view-command-center">
           
-          <div class="hero-text">
-            <div class="hero-tag">Real-Time Governance for Autonomous Financial Agents</div>
-            <h2 class="hero-title">Autonomy<br>with Accountability.</h2>
-            <p class="hero-desc">
-              Monitor, control and explain every financial agent action in real-time. Enforce policies, prevent risk and maintain a tamper-evident audit trail.
-            </p>
-            <div class="hero-actions">
-              <button class="btn-primary" onclick="scrollToElement('section-live-feed')">
-                Monitor Live &rarr;
-              </button>
-              <button class="btn-secondary" onclick="exportComplianceCSV()">
-                View Reports
-              </button>
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Command Center</h2>
+              <p>Autonomous AI Agent Fleet Risk &amp; Governance Matrix</p>
+            </div>
+            <div class="page-header-actions">
+              <button class="btn-secondary" onclick="exportComplianceCSV()">Download Audit CSV</button>
+              <button class="btn-gold" onclick="openTestSimulatorModal()">+ Test Action Request</button>
             </div>
           </div>
 
-          <div class="hero-badge-card">
-            <div class="badge-card-accent"></div>
-            <div class="badge-card-title">Trusted Governance for Financial AI</div>
-            <div class="badge-pillars">
-              <div class="pillar-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-                CONTROL
+          <!-- Hero Threat & Security Radar Banner -->
+          <div class="glass-panel" style="background: linear-gradient(135deg, #111a2e 0%, #0d1424 100%); border-color: #233454; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; color: #fbbf24; text-transform: uppercase; margin-bottom: 6px;">
+                RUNTIME THREAT LEVEL: DEFCON 4 (NORMAL)
               </div>
-              <div class="pillar-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                </svg>
-                COMPLIANCE
+              <h3 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin-bottom: 6px;">
+                SentinelAI Active Guardrail Matrix
+              </h3>
+              <p style="font-size: 0.84rem; color: #94a3b8; max-width: 600px;">
+                3 Simulated Agents operating within strict spending caps and dynamic policy whitelists. Real-time Isolation Forest anomaly detector active.
+              </p>
+            </div>
+            <div style="display: flex; gap: 14px;">
+              <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 14px 20px; text-align: center;">
+                <div style="font-size: 1.5rem; font-weight: 800; color: #34d399; font-family: monospace;">100%</div>
+                <div style="font-size: 0.68rem; color: #94a3b8; text-transform: uppercase;">SHA-256 Valid</div>
               </div>
-              <div class="pillar-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                  <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-                CONFIDENCE
+              <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: 14px 20px; text-align: center;">
+                <div style="font-size: 1.5rem; font-weight: 800; color: #fbbf24; font-family: monospace;">&lt;15ms</div>
+                <div style="font-size: 0.68rem; color: #94a3b8; text-transform: uppercase;">Avg Latency</div>
               </div>
             </div>
           </div>
-        </section>
 
-
-        <!-- ==================================================================
-             5 METRIC KPI CARDS ROW
-             ================================================================== -->
-        <section class="metrics-row">
-          
-          <!-- Card 1: Total Agents -->
-          <div class="metric-card" onclick="scrollToElement('section-agent-fleet')">
-            <div class="metric-header">
-              <div class="metric-icon-box gray">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-              </div>
-              <span class="metric-chevron">&rsaquo;</span>
-            </div>
-            <div class="metric-value-row">
-              <span class="metric-number" id="kpi-total-agents">3</span>
-            </div>
-            <div class="metric-label">Total Agents</div>
-            <div class="metric-footer">
-              <span id="kpi-agent-status-breakdown">2 Active | 1 Paused</span>
-            </div>
-          </div>
-
-          <!-- Card 2: Actions Today -->
-          <div class="metric-card" onclick="scrollToElement('section-live-feed')">
-            <div class="metric-header">
-              <div class="metric-icon-box green">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M12 6v6l4 2"/>
-                </svg>
-              </div>
-              <span class="metric-chevron">&rsaquo;</span>
-            </div>
-            <div class="metric-value-row">
-              <span class="metric-number" id="kpi-actions-today">248</span>
-              <svg class="sparkline-svg" viewBox="0 0 55 18">
-                <path d="M0,15 Q10,12 20,14 T40,6 T55,2" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="metric-label">Actions Today</div>
-            <div class="metric-footer">
-              <span class="trend-badge up-green">&uarr; 12% from yesterday</span>
-            </div>
-          </div>
-
-          <!-- Card 3: Blocked Actions -->
-          <div class="metric-card" onclick="filterFeedByVerdict('BLOCK')">
-            <div class="metric-header">
-              <div class="metric-icon-box red">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  <line x1="12" y1="8" x2="12" y2="12"/>
-                  <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
-              </div>
-              <span class="metric-chevron">&rsaquo;</span>
-            </div>
-            <div class="metric-value-row">
-              <span class="metric-number" id="kpi-blocked-actions">14</span>
-              <!-- Mini Bar Graph -->
-              <svg class="sparkline-svg" viewBox="0 0 55 18">
-                <rect x="5" y="10" width="5" height="8" fill="#fca5a5" rx="1"/>
-                <rect x="15" y="6" width="5" height="12" fill="#fca5a5" rx="1"/>
-                <rect x="25" y="12" width="5" height="6" fill="#fca5a5" rx="1"/>
-                <rect x="35" y="4" width="5" height="14" fill="#f87171" rx="1"/>
-                <rect x="45" y="2" width="5" height="16" fill="#ef4444" rx="1"/>
-              </svg>
-            </div>
-            <div class="metric-label">Blocked Actions</div>
-            <div class="metric-footer">
-              <span class="trend-badge up-red">&uarr; 3 new</span>
-            </div>
-          </div>
-
-          <!-- Card 4: Anomalies Detected -->
-          <div class="metric-card" onclick="filterFeedByVerdict('HITL_REQUIRED')">
-            <div class="metric-header">
-              <div class="metric-icon-box amber">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                </svg>
-              </div>
-              <span class="metric-chevron">&rsaquo;</span>
-            </div>
-            <div class="metric-value-row">
-              <span class="metric-number" id="kpi-anomalies-count">6</span>
-              <svg class="sparkline-svg" viewBox="0 0 55 18">
-                <rect x="5" y="12" width="5" height="6" fill="#fde68a" rx="1"/>
-                <rect x="15" y="8" width="5" height="10" fill="#fde68a" rx="1"/>
-                <rect x="25" y="10" width="5" height="8" fill="#fde68a" rx="1"/>
-                <rect x="35" y="5" width="5" height="13" fill="#f59e0b" rx="1"/>
-                <rect x="45" y="3" width="5" height="15" fill="#d97706" rx="1"/>
-              </svg>
-            </div>
-            <div class="metric-label">Anomalies Detected</div>
-            <div class="metric-footer">
-              <span class="trend-badge up-amber">&uarr; 2 new</span>
-            </div>
-          </div>
-
-          <!-- Card 5: Total Spend Today -->
-          <div class="metric-card" onclick="openModal('modal-policies')">
-            <div class="metric-header">
-              <div class="metric-icon-box emerald">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="5" width="20" height="14" rx="2"/>
-                  <line x1="2" y1="10" x2="22" y2="10"/>
-                </svg>
-              </div>
-              <span class="metric-chevron">&rsaquo;</span>
-            </div>
-            <div class="metric-value-row">
-              <span class="metric-number" id="kpi-total-spend">&euro;42,580</span>
-            </div>
-            <div class="metric-label">Total Spend Today</div>
-            <div class="progress-bar-container">
-              <div class="progress-bar-fill emerald" id="kpi-spend-progress" style="width: 45%;"></div>
-            </div>
-            <div class="metric-footer" style="margin-top: 6px;">
-              <span id="kpi-spend-ratio-text">45% of &euro;1,00,000</span>
-            </div>
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================================
-             MIDDLE SPLIT (AGENT FLEET & EMERGENCY CONTROLS)
-             ================================================================== -->
-        <section class="middle-grid">
-          
-          <!-- LEFT: Agent Fleet -->
-          <div class="agent-fleet-section" id="section-agent-fleet">
-            <div class="section-header">
-              <div class="section-title-wrap">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                <h3 class="section-title">Agent Fleet</h3>
-              </div>
-              <a class="section-link" onclick="openModal('modal-policies')">
-                View All Agents &rarr;
-              </a>
-            </div>
-
-            <!-- 3 Fleet Cards -->
-            <div class="agent-cards-row">
-              
-              <!-- Agent 1: Travel Agent -->
-              <div class="agent-card" id="card-travel-agent" onclick="inspectAgent('travel-agent-01')">
-                <div class="agent-card-header">
-                  <div class="agent-identity">
-                    <div class="agent-icon-box blue">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div class="agent-name-title">Travel Agent</div>
-                      <div class="agent-desc">Flight &amp; hotel bookings</div>
-                    </div>
-                  </div>
-                  <span class="status-badge active" id="badge-travel-agent">&bull; Active</span>
-                </div>
-
-                <div class="agent-spend-box">
-                  <div class="spend-labels">
-                    <span>Today's Spend</span>
-                    <span class="spend-percentage" id="spend-pct-travel">83%</span>
-                  </div>
-                  <div class="spend-amount" id="spend-amount-travel">&euro;12,450 / &euro;15,000</div>
-                  <div class="progress-bar-container">
-                    <div class="progress-bar-fill blue" id="spend-bar-travel" style="width: 83%;"></div>
-                  </div>
-                </div>
-
-                <div class="agent-stats-footer">
-                  <div class="agent-stat-item">
-                    <strong id="stat-actions-travel">42</strong>
-                    <span>Actions</span>
-                  </div>
-                  <div class="agent-stat-item">
-                    <strong class="danger" id="stat-blocked-travel">1</strong>
-                    <span>Blocked</span>
-                  </div>
-                  <div class="agent-stat-item">
-                    <strong id="stat-anomalies-travel">0</strong>
-                    <span>Anomalies</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Agent 2: Servicing Agent -->
-              <div class="agent-card" id="card-servicing-agent" onclick="inspectAgent('servicing-agent-01')">
-                <div class="agent-card-header">
-                  <div class="agent-identity">
-                    <div class="agent-icon-box purple">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
-                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div class="agent-name-title">Servicing Agent</div>
-                      <div class="agent-desc">Customer support &amp; fee reversals</div>
-                    </div>
-                  </div>
-                  <span class="status-badge active" id="badge-servicing-agent">&bull; Active</span>
-                </div>
-
-                <div class="agent-spend-box">
-                  <div class="spend-labels">
-                    <span>Today's Spend</span>
-                    <span class="spend-percentage" id="spend-pct-servicing">73%</span>
-                  </div>
-                  <div class="spend-amount" id="spend-amount-servicing">&euro;18,230 / &euro;25,000</div>
-                  <div class="progress-bar-container">
-                    <div class="progress-bar-fill purple" id="spend-bar-servicing" style="width: 73%;"></div>
-                  </div>
-                </div>
-
-                <div class="agent-stats-footer">
-                  <div class="agent-stat-item">
-                    <strong id="stat-actions-servicing">120</strong>
-                    <span>Actions</span>
-                  </div>
-                  <div class="agent-stat-item">
-                    <strong class="danger" id="stat-blocked-servicing">5</strong>
-                    <span>Blocked</span>
-                  </div>
-                  <div class="agent-stat-item">
-                    <strong class="warning" id="stat-anomalies-servicing">4</strong>
-                    <span>Anomalies</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Agent 3: Rewards Agent -->
-              <div class="agent-card" id="card-rewards-agent" onclick="inspectAgent('subsidy-agent-01')">
-                <div class="agent-card-header">
-                  <div class="agent-identity">
-                    <div class="agent-icon-box violet">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 12 20 22 4 22 4 12"/>
-                        <rect x="2" y="7" width="20" height="5"/>
-                        <line x1="12" y1="22" x2="12" y2="7"/>
-                        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div class="agent-name-title">Rewards Agent</div>
-                      <div class="agent-desc">Rewards &amp; subsidies disbursement</div>
-                    </div>
-                  </div>
-                  <span class="status-badge active" id="badge-rewards-agent">&bull; Active</span>
-                </div>
-
-                <div class="agent-spend-box">
-                  <div class="spend-labels">
-                    <span>Today's Spend</span>
-                    <span class="spend-percentage" id="spend-pct-rewards">59%</span>
-                  </div>
-                  <div class="spend-amount" id="spend-amount-rewards">&euro;11,900 / &euro;20,000</div>
-                  <div class="progress-bar-container">
-                    <div class="progress-bar-fill violet" id="spend-bar-rewards" style="width: 59%;"></div>
-                  </div>
-                </div>
-
-                <div class="agent-stats-footer">
-                  <div class="agent-stat-item">
-                    <strong id="stat-actions-rewards">86</strong>
-                    <span>Actions</span>
-                  </div>
-                  <div class="agent-stat-item">
-                    <strong class="danger" id="stat-blocked-rewards">8</strong>
-                    <span>Blocked</span>
-                  </div>
-                  <div class="agent-stat-item">
-                    <strong class="warning" id="stat-anomalies-rewards">2</strong>
-                    <span>Anomalies</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- RIGHT: Emergency Stop & Recent Alerts -->
-          <div class="controls-column">
+          <!-- 4 Stats Cards -->
+          <div class="stats-grid-4">
             
-            <!-- Emergency Stop Card -->
-            <div class="emergency-card" id="section-emergency-stop">
-              <div class="emergency-header">
-                <div class="emergency-icon-wrap">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                    <line x1="12" y1="9" x2="12" y2="13"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                  </svg>
-                </div>
-                <div>
-                  <div class="emergency-title">Emergency Stop</div>
-                  <div class="emergency-desc">Instantly halt an agent or the entire fleet</div>
+            <div class="stat-card" onclick="switchPage('agent-fleet')">
+              <div class="stat-header">
+                <span class="stat-title">Registered Fleet</span>
+                <div class="stat-icon cyan">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
               </div>
-
-              <div class="emergency-actions-row">
-                <button class="btn-emergency-halt" onclick="haltSelectedAgent()">
-                  Halt Selected Agent
-                </button>
-                <button class="btn-emergency-stop" onclick="triggerMasterKillSwitch()">
-                  Stop Entire Fleet
-                </button>
-              </div>
-
-              <div class="emergency-select-wrap">
-                <label for="agent-halt-select">Select Agent</label>
-                <select id="agent-halt-select" class="emergency-select">
-                  <option value="" disabled selected>Choose agent...</option>
-                  <option value="travel-agent-01">Travel Agent (travel-agent-01)</option>
-                  <option value="servicing-agent-01">Servicing Agent (servicing-agent-01)</option>
-                  <option value="subsidy-agent-01">Rewards Agent (subsidy-agent-01)</option>
-                </select>
+              <div class="stat-value">3 Agents</div>
+              <div class="stat-footer">
+                <span class="badge badge-active">&bull; 2 Active</span>
+                <span style="color: #fbbf24;">1 Paused</span>
               </div>
             </div>
 
-            <!-- Recent Alerts Card -->
-            <div class="alerts-card" id="section-recent-alerts">
-              <div class="alerts-header">
-                <div class="alerts-title">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="4" y1="9" x2="20" y2="9"/>
-                    <line x1="4" y1="15" x2="20" y2="15"/>
-                    <line x1="10" y1="3" x2="8" y2="21"/>
-                    <line x1="16" y1="3" x2="14" y2="21"/>
-                  </svg>
-                  Recent Alerts
+            <div class="stat-card" onclick="switchPage('live-actions')">
+              <div class="stat-header">
+                <span class="stat-title">Actions Evaluated</span>
+                <div class="stat-icon green">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
-                <a class="section-link" onclick="filterFeedByVerdict('BLOCK')">View All &rarr;</a>
               </div>
+              <div class="stat-value" id="cc-stat-actions">248</div>
+              <div class="stat-footer">
+                <span style="color: #34d399;">&uarr; 12% today</span>
+                <span>Real-time</span>
+              </div>
+            </div>
 
-              <div class="alerts-list" id="recent-alerts-container">
-                
-                <div class="alert-item" onclick="openExplanationForScenario('high_val_travel')">
-                  <span class="alert-time">11:42 AM</span>
-                  <div class="alert-icon-mini red">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/>
-                    </svg>
-                  </div>
-                  <div class="alert-body">
-                    <div class="alert-headline">High Value Transaction Blocked</div>
-                    <div class="alert-subtext">Travel Agent attempted &euro;20,000 flight booking</div>
-                  </div>
+            <div class="stat-card" onclick="switchPage('alerts-incidents')">
+              <div class="stat-header">
+                <span class="stat-title">Violations Intercepted</span>
+                <div class="stat-icon red">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
+              </div>
+              <div class="stat-value" id="cc-stat-blocked">14</div>
+              <div class="stat-footer">
+                <span style="color: #fb7185;">100% Blocked</span>
+                <span>Zero Drift</span>
+              </div>
+            </div>
 
-                <div class="alert-item" onclick="openExplanationForScenario('anomaly_servicing')">
-                  <span class="alert-time">11:40 AM</span>
-                  <div class="alert-icon-mini orange">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                    </svg>
-                  </div>
-                  <div class="alert-body">
-                    <div class="alert-headline">Anomaly Detected</div>
-                    <div class="alert-subtext">Unusual pattern in Servicing Agent actions</div>
-                  </div>
+            <div class="stat-card" onclick="switchPage('spend-budgets')">
+              <div class="stat-header">
+                <span class="stat-title">Total Spend Monitored</span>
+                <div class="stat-icon gold">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
                 </div>
-
-                <div class="alert-item" onclick="openExplanationForScenario('policy_hours')">
-                  <span class="alert-time">11:38 AM</span>
-                  <div class="alert-icon-mini red">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/>
-                    </svg>
-                  </div>
-                  <div class="alert-body">
-                    <div class="alert-headline">Policy Violation</div>
-                    <div class="alert-subtext">Action outside operating hours</div>
-                  </div>
-                </div>
-
-                <div class="alert-item" onclick="openExplanationForScenario('high_anomaly_rewards')">
-                  <span class="alert-time">11:35 AM</span>
-                  <div class="alert-icon-mini blue">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-                    </svg>
-                  </div>
-                  <div class="alert-body">
-                    <div class="alert-headline">High Anomaly Score</div>
-                    <div class="alert-subtext">Rewards Agent anomaly score: 0.78</div>
-                  </div>
-                </div>
-
+              </div>
+              <div class="stat-value" id="cc-stat-spend">&euro;42,580</div>
+              <div class="stat-footer">
+                <span>Cap: &euro;1,00,000</span>
+                <span style="color: #34d399;">42.5% Utilized</span>
               </div>
             </div>
 
           </div>
+
+          <!-- Split Row: Quick Agent Status & Recent High-Risk Interceptions -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            
+            <div class="glass-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h4 style="font-size: 1rem; font-weight: 700; color: #ffffff;">Agent Fleet Health</h4>
+                <a onclick="switchPage('agent-fleet')" style="font-size: 0.78rem; color: #38bdf8; cursor: pointer;">Manage Fleet &rarr;</a>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 14px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <span style="font-size: 1.1rem;">✈️</span>
+                      <div>
+                        <strong style="color: #ffffff; font-size: 0.88rem;">Travel Agent</strong>
+                        <span style="font-size: 0.72rem; color: #64748b; margin-left: 6px;">flight &amp; hotel</span>
+                      </div>
+                    </div>
+                    <span class="badge badge-active">&bull; Active</span>
+                  </div>
+                  <div class="meter-container">
+                    <div class="meter-fill cyan" style="width: 83%;"></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #94a3b8;">
+                    <span>Spend: &euro;12,450 / &euro;15,000</span>
+                    <span>83% Cap</span>
+                  </div>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 14px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <span style="font-size: 1.1rem;">🎧</span>
+                      <div>
+                        <strong style="color: #ffffff; font-size: 0.88rem;">Servicing Agent</strong>
+                        <span style="font-size: 0.72rem; color: #64748b; margin-left: 6px;">fee reversal &amp; credit</span>
+                      </div>
+                    </div>
+                    <span class="badge badge-active">&bull; Active</span>
+                  </div>
+                  <div class="meter-container">
+                    <div class="meter-fill purple" style="width: 73%;"></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #94a3b8;">
+                    <span>Spend: &euro;18,230 / &euro;25,000</span>
+                    <span>73% Cap</span>
+                  </div>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 14px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <span style="font-size: 1.1rem;">🎁</span>
+                      <div>
+                        <strong style="color: #ffffff; font-size: 0.88rem;">Rewards Agent</strong>
+                        <span style="font-size: 0.72rem; color: #64748b; margin-left: 6px;">subsidies &amp; payouts</span>
+                      </div>
+                    </div>
+                    <span class="badge badge-active">&bull; Active</span>
+                  </div>
+                  <div class="meter-container">
+                    <div class="meter-fill gold" style="width: 59%;"></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #94a3b8;">
+                    <span>Spend: &euro;11,900 / &euro;20,000</span>
+                    <span>59% Cap</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interceptions Feed -->
+            <div class="glass-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h4 style="font-size: 1rem; font-weight: 700; color: #ffffff;">Critical Interceptions</h4>
+                <a onclick="switchPage('live-actions')" style="font-size: 0.78rem; color: #38bdf8; cursor: pointer;">View Live Stream &rarr;</a>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.25); border-radius: var(--radius-md); padding: 12px; cursor: pointer;" onclick="openExplainerModal('req-f9104a')">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <strong style="font-size: 0.82rem; color: #fb7185;">Flight Booking Blocked (&euro;20,000)</strong>
+                    <span style="font-size: 0.7rem; color: #94a3b8; font-family: monospace;">11:42:15</span>
+                  </div>
+                  <p style="font-size: 0.74rem; color: #cbd5e1;">Travel Agent exceeded &euro;15,000 single transaction cap. Blocked by Policy Engine.</p>
+                </div>
+
+                <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-md); padding: 12px; cursor: pointer;" onclick="openExplainerModal('req-d7302c')">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <strong style="font-size: 0.82rem; color: #fbbf24;">ML Anomaly Flagged (Risk Score 0.78)</strong>
+                    <span style="font-size: 0.7rem; color: #94a3b8; font-family: monospace;">11:40:27</span>
+                  </div>
+                  <p style="font-size: 0.74rem; color: #cbd5e1;">Isolation Forest detected burst of rapid disbursement requests. Routed to HITL.</p>
+                </div>
+
+                <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.25); border-radius: var(--radius-md); padding: 12px; cursor: pointer;" onclick="openExplainerModal('req-b5504e')">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <strong style="font-size: 0.82rem; color: #fb7185;">Off-Hours Policy Violation</strong>
+                    <span style="font-size: 0.7rem; color: #94a3b8; font-family: monospace;">11:38:11</span>
+                  </div>
+                  <p style="font-size: 0.74rem; color: #cbd5e1;">Servicing Agent attempted fee reversal outside allowed window (08:00 - 20:00).</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </section>
 
 
-        <!-- ==================================================================
-             LIVE ACTION FEED TABLE
-             ================================================================== -->
-        <section class="feed-card" id="section-live-feed">
-          <div class="feed-header-wrap">
-            <div class="feed-title-left">
-              <div class="feed-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-                Live Action Feed
-              </div>
-
-              <!-- Filter Tabs -->
-              <div class="feed-filter-tabs">
-                <button class="filter-tab active" id="tab-all" onclick="filterFeedTable('ALL')">All (248)</button>
-                <button class="filter-tab" id="tab-allowed" onclick="filterFeedTable('ALLOW')">Allowed (214)</button>
-                <button class="filter-tab" id="tab-blocked" onclick="filterFeedTable('BLOCK')">Blocked (14)</button>
-                <button class="filter-tab" id="tab-hitl" onclick="filterFeedTable('HITL_REQUIRED')">HITL Required (6)</button>
-              </div>
+        <!-- ================================================================
+             PAGE 2: AGENT FLEET
+             ================================================================ -->
+        <section class="page-view" id="view-agent-fleet">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Agent Fleet</h2>
+              <p>Autonomous financial agents currently registered, scoped, and regulated by SentinelAI.</p>
             </div>
-
-            <!-- Action Controls -->
-            <div class="feed-actions-right">
-              <button class="btn-stream-toggle streaming" id="stream-toggle-btn" onclick="toggleStreamSimulation()">
-                <span class="status-dot"></span>
-                <span>Live Sim: ON</span>
-              </button>
-
-              <button class="btn-test-action" onclick="openModal('modal-action-simulator')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="12" y1="5" x2="12" y2="19"/>
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-                Test Action
-              </button>
+            <div class="page-header-actions">
+              <button class="btn-primary" onclick="switchPage('agent-management')">+ Register New Agent</button>
             </div>
           </div>
 
-          <!-- Table Container -->
-          <div class="table-responsive">
-            <table class="action-table">
+          <div class="stats-grid-3" id="fleet-cards-container">
+            <!-- Dynamically populated Agent Fleet Cards -->
+          </div>
+
+          <div class="glass-panel">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">Fleet Policy &amp; Scope Overview</h3>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Agent ID</th>
+                    <th>Role &amp; Domain</th>
+                    <th>Single Tx Limit</th>
+                    <th>Daily Spend Cap</th>
+                    <th>Whitelisted Capabilities</th>
+                    <th>Operating Hours</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="fleet-table-body">
+                  <!-- Dynamically populated table -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 3: LIVE ACTIONS (STREAMING TRANSACTION FEED)
+             ================================================================ -->
+        <section class="page-view" id="view-live-actions">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Live Action Stream</h2>
+              <p>Real-time intercept stream of agent action requests evaluated through the Policy Gateway.</p>
+            </div>
+            <div class="page-header-actions">
+              <button class="btn-secondary" id="stream-toggle-button" onclick="toggleStreaming()">
+                <span class="live-pulse-dot" style="display: inline-block;"></span> Live Stream: ACTIVE
+              </button>
+              <button class="btn-gold" onclick="openTestSimulatorModal()">+ Inject Test Request</button>
+            </div>
+          </div>
+
+          <!-- Filter Ribbon -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-secondary" style="font-size: 0.74rem; padding: 6px 14px; background: rgba(255, 255, 255, 0.1);" onclick="filterActionTable('ALL')">All Actions</button>
+              <button class="btn-secondary" style="font-size: 0.74rem; padding: 6px 14px;" onclick="filterActionTable('ALLOW')">Approved</button>
+              <button class="btn-secondary" style="font-size: 0.74rem; padding: 6px 14px;" onclick="filterActionTable('BLOCK')">Blocked</button>
+              <button class="btn-secondary" style="font-size: 0.74rem; padding: 6px 14px;" onclick="filterActionTable('HITL_REQUIRED')">HITL Required</button>
+            </div>
+            <span style="font-size: 0.78rem; color: #94a3b8;">Click any row to inspect Groq Llama-3 reasoning &amp; SHA-256 block hash.</span>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
               <thead>
                 <tr>
-                  <th>Time</th>
+                  <th>Timestamp</th>
+                  <th>Request ID</th>
                   <th>Agent</th>
-                  <th>Action</th>
-                  <th>Amount (&euro;)</th>
-                  <th>Decision</th>
-                  <th>Risk Score</th>
-                  <th>Reason</th>
+                  <th>Action Type</th>
+                  <th>Amount</th>
+                  <th>Verdict</th>
+                  <th>ML Anomaly Score</th>
+                  <th>Policy Reason</th>
                 </tr>
               </thead>
-              <tbody id="action-feed-tbody">
-                <!-- Dynamically populated rows will appear here -->
+              <tbody id="live-action-table-body">
+                <!-- Dynamically populated live rows -->
               </tbody>
             </table>
           </div>
+
         </section>
 
 
-        <!-- ==================================================================
-             BOTTOM 4 NAVIGATION QUICK CARDS
-             ================================================================== -->
-        <section class="quick-cards-row">
+        <!-- ================================================================
+             PAGE 4: ALERTS & INCIDENTS (TRIAGE CONSOLE)
+             ================================================================ -->
+        <section class="page-view" id="view-alerts-incidents">
           
-          <div class="quick-card" onclick="openModal('modal-audit-ledger')">
-            <div class="quick-card-left">
-              <div class="quick-icon-box blue">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                </svg>
-              </div>
-              <div>
-                <div class="quick-card-title">Audit Ledger</div>
-                <div class="quick-card-subtext">Check tamper-evident logs</div>
-              </div>
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Alerts &amp; Incidents</h2>
+              <p>Security alerts, out-of-distribution drift notifications, and Human-in-the-Loop review queue.</p>
             </div>
-            <span class="quick-card-arrow">&rsaquo;</span>
+            <div class="page-header-actions">
+              <button class="btn-secondary" onclick="showToast('Alert logs cleared.', 'info')">Acknowledge All</button>
+            </div>
           </div>
 
-          <div class="quick-card" onclick="openModal('modal-policies')">
-            <div class="quick-card-left">
-              <div class="quick-icon-box indigo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="quick-card-title">Policy Management</div>
-                <div class="quick-card-subtext">Update agent policies</div>
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+            
+            <div class="glass-panel">
+              <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">Active Incident Queue (3 Priority Alerts)</h3>
+              
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                
+                <div style="background: rgba(244, 63, 94, 0.09); border: 1px solid rgba(244, 63, 94, 0.35); border-radius: var(--radius-md); padding: 18px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <div>
+                      <span class="badge badge-blocked">CRITICAL VIOLATION</span>
+                      <h4 style="font-size: 0.95rem; font-weight: 800; color: #ffffff; margin-top: 6px;">Excessive Flight Booking Cap Breach</h4>
+                    </div>
+                    <span style="font-family: monospace; font-size: 0.75rem; color: #94a3b8;">11:42:15 AM</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 12px;">
+                    Travel Agent attempted ₹20,000 corporate flight booking (DEL &rarr; BOM). Agent single transaction ceiling is strictly ₹15,000.
+                  </p>
+                  <div style="display: flex; gap: 10px;">
+                    <button class="btn-primary" style="font-size: 0.74rem; padding: 6px 12px;" onclick="openExplainerModal('req-f9104a')">Inspect AI Explanation</button>
+                    <button class="btn-danger" style="font-size: 0.74rem; padding: 6px 12px;" onclick="haltAgent('travel-agent-01')">Pause Travel Agent</button>
+                  </div>
+                </div>
+
+                <div style="background: rgba(245, 158, 11, 0.09); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: var(--radius-md); padding: 18px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <div>
+                      <span class="badge badge-hitl">ANOMALY DETECTED</span>
+                      <h4 style="font-size: 0.95rem; font-weight: 800; color: #ffffff; margin-top: 6px;">Disbursement Velocity Spike (Score: 0.78)</h4>
+                    </div>
+                    <span style="font-family: monospace; font-size: 0.75rem; color: #94a3b8;">11:40:27 AM</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 12px;">
+                    Isolation Forest detected out-of-distribution pattern for Rewards Agent: sudden repeated payouts to unfamiliar account ranges.
+                  </p>
+                  <div style="display: flex; gap: 10px;">
+                    <button class="btn-gold" style="font-size: 0.74rem; padding: 6px 12px;" onclick="openExplainerModal('req-d7302c')">Review Telemetry</button>
+                    <button class="btn-secondary" style="font-size: 0.74rem; padding: 6px 12px;" onclick="showToast('Approved via HITL override.', 'success')">Approve Override</button>
+                  </div>
+                </div>
+
+                <div style="background: rgba(244, 63, 94, 0.09); border: 1px solid rgba(244, 63, 94, 0.35); border-radius: var(--radius-md); padding: 18px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <div>
+                      <span class="badge badge-blocked">POLICY BREACH</span>
+                      <h4 style="font-size: 0.95rem; font-weight: 800; color: #ffffff; margin-top: 6px;">Unauthorized Off-Hours Operation</h4>
+                    </div>
+                    <span style="font-family: monospace; font-size: 0.75rem; color: #94a3b8;">11:38:11 AM</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 12px;">
+                    Servicing Agent attempted fee reversal during restricted window. Configured operating hours: 08:00 - 20:00.
+                  </p>
+                  <div style="display: flex; gap: 10px;">
+                    <button class="btn-primary" style="font-size: 0.74rem; padding: 6px 12px;" onclick="openExplainerModal('req-b5504e')">View Audit Block</button>
+                  </div>
+                </div>
+
               </div>
             </div>
-            <span class="quick-card-arrow">&rsaquo;</span>
+
+            <!-- Anomaly Threshold Gauges -->
+            <div class="glass-panel">
+              <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">ML Guardrail Settings</h3>
+              
+              <div style="display: flex; flex-direction: column; gap: 18px;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 6px;">
+                    <span style="color: #94a3b8;">Isolation Forest Threshold</span>
+                    <strong style="color: #fbbf24;">0.70</strong>
+                  </div>
+                  <div class="meter-container">
+                    <div class="meter-fill gold" style="width: 70%;"></div>
+                  </div>
+                  <span style="font-size: 0.7rem; color: #64748b;">Scores &gt;0.70 automatically trigger Human-in-the-Loop review.</span>
+                </div>
+
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 6px;">
+                    <span style="color: #94a3b8;">Fail-Closed Timeout Ceiling</span>
+                    <strong style="color: #38bdf8;">20.0 ms</strong>
+                  </div>
+                  <div class="meter-container">
+                    <div class="meter-fill cyan" style="width: 20%;"></div>
+                  </div>
+                  <span style="font-size: 0.7rem; color: #64748b;">If policy evaluation exceeds 20ms, request is blocked fail-closed.</span>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 14px;">
+                  <strong style="font-size: 0.82rem; color: #ffffff; display: block; margin-bottom: 4px;">Autonomous Security Guarantee</strong>
+                  <p style="font-size: 0.72rem; color: #94a3b8; line-height: 1.4;">
+                    No financial transaction can commit without simultaneous cryptographic audit logging and dynamic spend reservation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <div class="quick-card" onclick="openModal('modal-policies')">
-            <div class="quick-card-left">
-              <div class="quick-icon-box amber">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
-                </svg>
-              </div>
-              <div>
-                <div class="quick-card-title">Spend &amp; Budgets</div>
-                <div class="quick-card-subtext">Manage spending limits</div>
-              </div>
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 5: ANALYTICS (FINANCIAL VELOCITY & RISK INTELLIGENCE)
+             ================================================================ -->
+        <section class="page-view" id="view-analytics">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Analytics &amp; Intelligence</h2>
+              <p>Risk telemetry, financial capital velocity, and anomaly distribution across agent fleets.</p>
             </div>
-            <span class="quick-card-arrow">&rsaquo;</span>
           </div>
 
-          <div class="quick-card" onclick="exportComplianceCSV()">
-            <div class="quick-card-left">
-              <div class="quick-icon-box cyan">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="18" y1="20" x2="18" y2="10"/>
-                  <line x1="12" y1="20" x2="12" y2="4"/>
-                  <line x1="6" y1="20" x2="6" y2="14"/>
-                </svg>
-              </div>
-              <div>
-                <div class="quick-card-title">Analytics &amp; Reports</div>
-                <div class="quick-card-subtext">Generate compliance reports</div>
+          <div class="stats-grid-4">
+            <div class="stat-card">
+              <span class="stat-title">Capital Protected</span>
+              <div class="stat-value" style="color: #34d399;">&euro;2,84,500</div>
+              <div class="stat-footer">Prevented drift</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Rejection Ratio</span>
+              <div class="stat-value" style="color: #fb7185;">5.6%</div>
+              <div class="stat-footer">14 of 248 actions</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Audit Chain Integrity</span>
+              <div class="stat-value" style="color: #38bdf8;">100.0%</div>
+              <div class="stat-footer">Zero broken hashes</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Peak Throughput</span>
+              <div class="stat-value">142 req/s</div>
+              <div class="stat-footer">Under 18ms latency</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <!-- Chart 1: Spend Velocity -->
+            <div class="glass-panel">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #ffffff; margin-bottom: 14px;">Spend by Agent (Today)</h3>
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+                    <span style="color: #ffffff;">Servicing Agent (Customer Credits)</span>
+                    <strong style="color: #a78bfa;">&euro;18,230 (43%)</strong>
+                  </div>
+                  <div class="meter-container"><div class="meter-fill purple" style="width: 43%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+                    <span style="color: #ffffff;">Travel Agent (Flights &amp; Hotels)</span>
+                    <strong style="color: #38bdf8;">&euro;12,450 (29%)</strong>
+                  </div>
+                  <div class="meter-container"><div class="meter-fill cyan" style="width: 29%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+                    <span style="color: #ffffff;">Rewards Agent (Direct Subsidies)</span>
+                    <strong style="color: #fbbf24;">&euro;11,900 (28%)</strong>
+                  </div>
+                  <div class="meter-container"><div class="meter-fill gold" style="width: 28%;"></div></div>
+                </div>
               </div>
             </div>
-            <span class="quick-card-arrow">&rsaquo;</span>
+
+            <!-- Chart 2: Violation Breakdown -->
+            <div class="glass-panel">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #ffffff; margin-bottom: 14px;">Block Reasons Distribution</h3>
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+                    <span style="color: #ffffff;">Single Transaction Ceiling Exceeded</span>
+                    <strong style="color: #fb7185;">57% (8 actions)</strong>
+                  </div>
+                  <div class="meter-container"><div class="meter-fill rose" style="width: 57%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+                    <span style="color: #ffffff;">Off-Hours Policy Restriction</span>
+                    <strong style="color: #fbbf24;">29% (4 actions)</strong>
+                  </div>
+                  <div class="meter-container"><div class="meter-fill gold" style="width: 29%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+                    <span style="color: #ffffff;">Non-Whitelisted Action Disallowed</span>
+                    <strong style="color: #38bdf8;">14% (2 actions)</strong>
+                  </div>
+                  <div class="meter-container"><div class="meter-fill cyan" style="width: 14%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 6: POLICIES & RULES (PERSON 1 VERTICAL)
+             ================================================================ -->
+        <section class="page-view" id="view-policies-rules">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Policies &amp; Rules</h2>
+              <p>Person 1 Policy Architecture: dynamic capability whitelisting, transaction caps, and fail-closed timeout guards.</p>
+            </div>
+            <div class="page-header-actions">
+              <button class="btn-primary" onclick="showToast('Policies validated &amp; synchronized with PostgreSQL.', 'success')">Deploy Policies</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+            <div class="glass-panel">
+              <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">Active Policy Rule Definitions</h3>
+              <div id="policy-rules-detail-list">
+                <!-- Dynamically populated policies -->
+              </div>
+            </div>
+
+            <div class="glass-panel">
+              <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">Policy Engine Specs</h3>
+              <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.8rem; color: #cbd5e1;">
+                <div>
+                  <strong style="color: #ffffff;">Fail-Closed Security Model:</strong>
+                  <p style="color: #94a3b8; margin-top: 2px;">If policy evaluation times out (>20ms) or encounters an exception, the verdict immediately blocks the request.</p>
+                </div>
+                <div>
+                  <strong style="color: #ffffff;">Dynamic In-Memory Registry:</strong>
+                  <p style="color: #94a3b8; margin-top: 2px;">Synchronized in real-time with PostgreSQL <code>agents</code> and <code>policies</code> tables.</p>
+                </div>
+                <div>
+                  <strong style="color: #ffffff;">Supported Verification Steps:</strong>
+                  <ul style="margin-left: 20px; margin-top: 4px; color: #94a3b8;">
+                    <li>Agent active status validation</li>
+                    <li>Action whitelist matching</li>
+                    <li>Single transaction maximum limit</li>
+                    <li>Operating time-of-day window check</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 7: SPEND & BUDGETS (PERSON 2 VERTICAL)
+             ================================================================ -->
+        <section class="page-view" id="view-spend-budgets">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Spend &amp; Budgets</h2>
+              <p>Person 2 Deliverable: Real-time multi-window rolling spend tracker, budget reservations, and cap rollover logic.</p>
+            </div>
+          </div>
+
+          <div class="stats-grid-3">
+            <div class="stat-card">
+              <span class="stat-title">Fleet Daily Cap</span>
+              <div class="stat-value">&euro;1,00,000</div>
+              <div class="stat-footer">Across all 3 agents</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Committed Today</span>
+              <div class="stat-value" style="color: #34d399;">&euro;42,580</div>
+              <div class="stat-footer">&euro;57,420 Remaining</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Monthly Rollover Pool</span>
+              <div class="stat-value" style="color: #fbbf24;">&euro;15,50,000</div>
+              <div class="stat-footer">Resets 1st of month</div>
+            </div>
+          </div>
+
+          <div class="glass-panel">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">Agent Spend Allocation Breakdown</h3>
+            <div id="spend-allocation-container">
+              <!-- Dynamically populated spend meters -->
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 8: KILL SWITCH (CIRCUIT BREAKER CONTROL ROOM)
+             ================================================================ -->
+        <section class="page-view" id="view-kill-switch">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Emergency Kill Switch</h2>
+              <p>Instant circuit breakers to halt individual agents or sever the entire fleet during black-swan events.</p>
+            </div>
+          </div>
+
+          <div class="circuit-breaker-box">
+            <h3 style="font-size: 1.5rem; font-weight: 800; color: #ffffff;">MASTER CIRCUIT BREAKER</h3>
+            <p style="font-size: 0.88rem; color: #fca5a5; max-width: 500px; margin: 8px auto 0 auto;">
+              Triggering this immediately halts all autonomous financial agents across the network. Zero new actions will be approved.
+            </p>
+
+            <button class="big-red-button" onclick="triggerMasterKillSwitch()">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-bottom: 6px;">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span>HALT FLEET</span>
+            </button>
+
+            <div style="font-size: 0.75rem; color: #94a3b8;">
+              Status: <span id="global-kill-status-text" style="color: #34d399; font-weight: 700;">CIRCUIT ARMED &bull; NORMAL OPERATIONS</span>
+            </div>
+          </div>
+
+          <!-- Individual Agent Kill Switches -->
+          <div class="glass-panel" style="margin-top: 24px;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">Individual Agent Circuit Breakers</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;" id="individual-kill-switches">
+              <!-- Rendered individual agent kill switches -->
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 9: AUDIT LEDGER (SHA-256 BLOCKCHAIN EXPLORER)
+             ================================================================ -->
+        <section class="page-view" id="view-audit-ledger">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Cryptographic Audit Ledger</h2>
+              <p>Person 2 Deliverable: Immutable, append-only SHA-256 hash-chained ledger providing mathematical tamper-evidence.</p>
+            </div>
+            <div class="page-header-actions">
+              <button class="btn-primary" onclick="verifyLedgerIntegrity()">Verify Cryptographic Chain</button>
+              <button class="btn-danger" onclick="simulateTamperAttack()">Simulate Tamper Attack</button>
+              <button class="btn-secondary" onclick="exportComplianceCSV()">Export Compliance CSV</button>
+            </div>
+          </div>
+
+          <!-- Ledger Status Banner -->
+          <div style="background: rgba(16, 185, 129, 0.1); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: var(--radius-lg); padding: 18px 24px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 38px; height: 38px; border-radius: 50%; background: #10b981; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 900;">&check;</div>
+              <div>
+                <h4 style="font-size: 1rem; font-weight: 800; color: #34d399;">SHA-256 Mathematical Tamper Evidence Verified</h4>
+                <p style="font-size: 0.78rem; color: #a7f3d0;">Every block hashes previous block hash + request ID + agent ID + timestamp + verdict + amount.</p>
+              </div>
+            </div>
+            <span style="font-family: monospace; font-size: 0.85rem; color: #ffffff;" id="audit-block-count">Blocks: 7</span>
+          </div>
+
+          <!-- Block Explorer -->
+          <div class="hash-chain-list" id="audit-chain-explorer">
+            <!-- Dynamically rendered cryptographic blocks -->
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 10: REPORTS (COMPLIANCE EXPORTS)
+             ================================================================ -->
+        <section class="page-view" id="view-reports">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Compliance &amp; Reports</h2>
+              <p>Generate regulator-ready compliance artifacts for risk auditors and compliance officers.</p>
+            </div>
+            <div class="page-header-actions">
+              <button class="btn-primary" onclick="exportComplianceCSV()">Download CSV</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <div class="glass-panel glass-panel-hover">
+              <h4 style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Audit Trail Ledger CSV</h4>
+              <p style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 16px;">Complete tamper-evident execution log with all SHA-256 block hashes.</p>
+              <button class="btn-secondary" style="width: 100%; justify-content: center;" onclick="exportComplianceCSV()">Export CSV</button>
+            </div>
+
+            <div class="glass-panel glass-panel-hover">
+              <h4 style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">RBI AI Risk Audit Pack</h4>
+              <p style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 16px;">Formatted compliance summary conforming to financial agent governance directives.</p>
+              <button class="btn-secondary" style="width: 100%; justify-content: center;" onclick="showToast('Generated RBI Compliance Report.', 'success')">Generate Pack</button>
+            </div>
+
+            <div class="glass-panel glass-panel-hover">
+              <h4 style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Model Anomaly Report</h4>
+              <p style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 16px;">Isolation Forest out-of-distribution drift logs and outlier scores.</p>
+              <button class="btn-secondary" style="width: 100%; justify-content: center;" onclick="showToast('Exported Anomaly Logs.', 'success')">Download JSON</button>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 11: AGENT MANAGEMENT
+             ================================================================ -->
+        <section class="page-view" id="view-agent-management">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>Agent Management</h2>
+              <p>Register new financial agents into the runtime governance layer and define their initial constraints.</p>
+            </div>
+          </div>
+
+          <div class="glass-panel" style="max-width: 680px;">
+            <form id="register-agent-form" onsubmit="handleAgentRegistration(event)" style="display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <label style="font-size: 0.75rem; font-weight: 700; color: #94a3b8;">Agent Identifier (agent_id)</label>
+                <input type="text" id="reg-agent-id" class="search-box" style="margin-top: 6px; padding: 10px;" value="lending-agent-01" required>
+              </div>
+
+              <div>
+                <label style="font-size: 0.75rem; font-weight: 700; color: #94a3b8;">Display Name</label>
+                <input type="text" id="reg-agent-name" class="search-box" style="margin-top: 6px; padding: 10px;" value="Micro-Lending Credit Underwriting Agent" required>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 700; color: #94a3b8;">Single Transaction Ceiling (&euro;)</label>
+                  <input type="number" id="reg-single-limit" class="search-box" style="margin-top: 6px; padding: 10px;" value="30000" required>
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 700; color: #94a3b8;">Daily Spend Cap (&euro;)</label>
+                  <input type="number" id="reg-daily-cap" class="search-box" style="margin-top: 6px; padding: 10px;" value="150000" required>
+                </div>
+              </div>
+
+              <div>
+                <label style="font-size: 0.75rem; font-weight: 700; color: #94a3b8;">Whitelisted Action Types (comma separated)</label>
+                <input type="text" id="reg-actions" class="search-box" style="margin-top: 6px; padding: 10px;" value="disburse_loan, assess_cibil, approve_credit" required>
+              </div>
+
+              <button type="submit" class="btn-gold" style="justify-content: center; padding: 12px; margin-top: 8px;">
+                Register Agent with Governance Gateway &rarr;
+              </button>
+            </form>
+          </div>
+
+        </section>
+
+
+        <!-- ================================================================
+             PAGE 12: SYSTEM SETTINGS
+             ================================================================ -->
+        <section class="page-view" id="view-system-settings">
+          
+          <div class="page-header">
+            <div class="page-header-info">
+              <h2>System Settings</h2>
+              <p>Configure live Groq LLM explainer, ML Anomaly parameters, and gateway connection endpoints.</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div class="glass-panel">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #ffffff; margin-bottom: 14px;">Engine API Endpoints</h3>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div>
+                  <label style="font-size: 0.72rem; color: #94a3b8;">FastAPI Gateway URL</label>
+                  <input type="text" class="search-box" style="margin-top: 4px; padding: 8px;" value="http://localhost:8000/api/v1">
+                </div>
+                <div>
+                  <label style="font-size: 0.72rem; color: #94a3b8;">Groq Model Identifier</label>
+                  <input type="text" class="search-box" style="margin-top: 4px; padding: 8px;" value="llama-3.3-70b-versatile">
+                </div>
+                <div>
+                  <label style="font-size: 0.72rem; color: #94a3b8;">Fail-Closed Timeout (ms)</label>
+                  <input type="number" class="search-box" style="margin-top: 4px; padding: 8px;" value="20">
+                </div>
+                <button class="btn-primary" style="margin-top: 6px;" onclick="showToast('Engine settings updated.', 'success')">Save Settings</button>
+              </div>
+            </div>
+
+            <div class="glass-panel">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #ffffff; margin-bottom: 14px;">Co-Founder Module Status</h3>
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.78rem;">
+                <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+                  <span>Person 1: Policy Engine &amp; Whitelists</span>
+                  <span class="badge badge-active">CONNECTED</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+                  <span>Person 2: Spend Caps, Kill Switch, SHA-256 Ledger</span>
+                  <span class="badge badge-active">CONNECTED</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+                  <span>Person 3: Isolation Forest &amp; Groq Llama-3</span>
+                  <span class="badge badge-active">CONNECTED</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+                  <span>Person 4: Operator Dashboard &amp; Multi-View Console</span>
+                  <span class="badge badge-active">ONLINE</span>
+                </div>
+              </div>
+            </div>
           </div>
 
         </section>
@@ -820,179 +1058,104 @@
 
 
   <!-- ====================================================================
-       MODAL 1: "WHY WAS THIS BLOCKED?" AI EXPLAINER MODAL
+       ACTION EXPLAINER MODAL (GROQ LLAMA-3 REASONING)
        ==================================================================== -->
   <div class="modal-overlay" id="modal-explainer">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          <span class="modal-title">Why Was This Action Blocked?</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <h3>Governance Decision Analysis</h3>
         </div>
         <button class="modal-close-btn" onclick="closeModal('modal-explainer')">&times;</button>
       </div>
 
       <div class="modal-body">
         
-        <!-- Summary Strip -->
-        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #0c1320; padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-card);">
           <div>
-            <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 700;">Agent &amp; Action</div>
-            <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a;" id="modal-agent-action-text">Travel Agent &bull; Book Flight (DEL &rarr; BOM)</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Agent &amp; Requested Action</div>
+            <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff;" id="modal-action-title">Travel Agent &bull; Book Flight</div>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 700;">Amount Attempted</div>
-            <div style="font-size: 1.1rem; font-weight: 800; color: #dc2626;" id="modal-amount-text">&euro;20,000.00</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Attempted Capital</div>
+            <div style="font-size: 1.15rem; font-weight: 900; color: #f43f5e;" id="modal-action-amount">&euro;20,000</div>
           </div>
         </div>
 
-        <!-- Groq Llama-3 AI Explanation Box -->
-        <div class="ai-explainer-card">
-          <div class="ai-explainer-header">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
-              <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
-              <path d="M12 12L2.1 7.1"/>
-              <path d="M12 12v10"/>
-            </svg>
-            GROQ LLAMA-3 AI NATURAL LANGUAGE EXPLANATION
+        <!-- Groq Explanation -->
+        <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid #334155; border-left: 4px solid #3b82f6; border-radius: var(--radius-md); padding: 16px;">
+          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">
+            🤖 GROQ LLAMA-3 AI REASONING
           </div>
-          <div class="ai-explainer-text" id="modal-llm-explanation">
-            Loading AI explanation...
+          <div id="modal-llm-text" style="font-size: 0.85rem; line-height: 1.5; color: #e2e8f0;">
+            Loading explanation...
           </div>
         </div>
 
-        <!-- Inspection Breakdown Table -->
+        <!-- Metric Details -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
-            <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; margin-bottom: 4px;">POLICY EVALUATION</div>
-            <div style="font-size: 0.82rem; font-weight: 600; color: #dc2626;" id="modal-policy-verdict">Single Transaction Cap Exceeded</div>
-            <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Limit: &euro;15,000.00 | Attempted: &euro;20,000.00</div>
+          <div style="background: #0c1320; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-card);">
+            <div style="font-size: 0.68rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Policy Verification</div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #fb7185; margin-top: 4px;" id="modal-policy-reason">Single Tx Ceiling Exceeded</div>
           </div>
-
-          <div style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
-            <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; margin-bottom: 4px;">ISOLATION FOREST ML ANOMALY</div>
-            <div style="font-size: 0.82rem; font-weight: 600; color: #d97706;" id="modal-ml-score">Risk Score: 0.92 (High Outlier)</div>
-            <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Threshold: &gt;0.70 triggers security alert</div>
+          <div style="background: #0c1320; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-card);">
+            <div style="font-size: 0.68rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">ML Anomaly Outlier Score</div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #fbbf24; margin-top: 4px;" id="modal-anomaly-score">0.92 (High Outlier)</div>
           </div>
         </div>
 
-        <!-- Cryptographic Audit Hash -->
-        <div class="audit-hash-chip">
-          <span class="hash-label">IMMUTABLE SHA-256 AUDIT LEDGER BLOCK HASH</span>
-          <span id="modal-audit-hash">4a8b7921c5f3e1a09d3b4e7a8f1c0d2e5b7a9c3d1f4e6a8b0c2d4e6f8a0b2c4e</span>
+        <!-- Cryptographic Block Hash -->
+        <div style="background: #090e18; border: 1px solid #1e293b; border-radius: var(--radius-md); padding: 12px;">
+          <span style="font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">IMMUTABLE SHA-256 BLOCK LEDGER HASH</span>
+          <span style="font-family: monospace; font-size: 0.72rem; color: #38bdf8; word-break: break-all;" id="modal-hash-text">
+            40579b1a81b3b273e918c502b48d28a192837461947261829374829102938475
+          </span>
         </div>
 
       </div>
 
       <div class="modal-footer">
-        <button class="btn-secondary" onclick="closeModal('modal-explainer')">Dismiss</button>
-        <button class="btn-primary" onclick="openModal('modal-audit-ledger')">View in Audit Ledger &rarr;</button>
+        <button class="btn-secondary" onclick="closeModal('modal-explainer')">Close</button>
+        <button class="btn-primary" onclick="closeModal('modal-explainer'); switchPage('audit-ledger')">View in Ledger &rarr;</button>
       </div>
     </div>
   </div>
 
 
   <!-- ====================================================================
-       MODAL 2: CRYPTOGRAPHIC AUDIT LEDGER & TAMPER VERIFICATION
+       ACTION SIMULATOR MODAL
        ==================================================================== -->
-  <div class="modal-overlay" id="modal-audit-ledger">
-    <div class="modal-box" style="max-width: 820px;">
-      <div class="modal-header">
-        <div class="modal-title-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-          </svg>
-          <span class="modal-title">Cryptographic SHA-256 Audit Ledger</span>
-        </div>
-        <button class="modal-close-btn" onclick="closeModal('modal-audit-ledger')">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        
-        <!-- Ledger Health Status Banner -->
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-sm); padding: 14px; display: flex; align-items: center; justify-content: space-between;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; background: #10b981; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">&check;</div>
-            <div>
-              <div style="font-size: 0.84rem; font-weight: 700; color: #065f46;">Mathematical Integrity Verified (SHA-256 Hash Chain)</div>
-              <div style="font-size: 0.72rem; color: #047857;">All consecutive block hashes valid and mathematically linked to Genesis Block.</div>
-            </div>
-          </div>
-          <button class="btn-secondary" style="font-size: 0.72rem; padding: 6px 12px;" onclick="verifyLedgerIntegrity()">
-            Re-verify Chain
-          </button>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: 700; color: #334155;">Ledger Blocks (<span id="ledger-count-text">4</span> Blocks)</span>
-          <button class="btn-secondary" style="font-size: 0.72rem; padding: 6px 12px;" onclick="exportComplianceCSV()">
-            Export Compliance CSV
-          </button>
-        </div>
-
-        <!-- Ledger Blocks List -->
-        <div id="ledger-blocks-container" style="display: flex; flex-direction: column; gap: 10px; max-height: 380px; overflow-y: auto;">
-          <!-- Dynamically populated blocks -->
-        </div>
-
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="closeModal('modal-audit-ledger')">Close</button>
-        <button class="btn-primary" onclick="exportComplianceCSV()">Download Audit Report</button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ====================================================================
-       MODAL 3: TEST ACTION SIMULATOR / PLAYGROUND
-       ==================================================================== -->
-  <div class="modal-overlay" id="modal-action-simulator">
+  <div class="modal-overlay" id="modal-simulator">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
-          <span class="modal-title">Live Governance Test Playground</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <h3>Dispatch Test Action Request</h3>
         </div>
-        <button class="modal-close-btn" onclick="closeModal('modal-action-simulator')">&times;</button>
+        <button class="modal-close-btn" onclick="closeModal('modal-simulator')">&times;</button>
       </div>
 
       <div class="modal-body">
-        <p style="font-size: 0.8rem; color: #64748b;">
-          Trigger an action request through the live Policy Gateway. The request will be evaluated in real-time by the Policy Engine, Spend Cap Tracker, Isolation Forest ML Detector, and Groq Explainer.
+        <p style="font-size: 0.8rem; color: #94a3b8;">
+          Inject a real or anomalous financial agent request into the live Governance Engine. It evaluates against dynamic whitelists, spend caps, Isolation Forest ML model, and Groq reasoning in &lt;15ms.
         </p>
 
-        <!-- Preset Scenarios -->
+        <!-- Presets -->
         <div>
-          <label style="font-size: 0.72rem; font-weight: 700; color: #475569; display: block; margin-bottom: 6px;">LOAD PRESET DEMO SCENARIO</label>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('valid_flight')">
-              &bull; Normal Flight (&euro;8,000)
-            </button>
-            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('overspend_flight')">
-              &bull; Overspend Flight (&euro;20,000)
-            </button>
-            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('unauthorized_crypto')">
-              &bull; Crypto Transfer (Disallowed)
-            </button>
-            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('anomaly_subsidy')">
-              &bull; Anomalous Subsidy (&euro;24,000)
-            </button>
+          <span style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase;">QUICK DEMO PRESETS</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadSimPreset('normal_flight')">Normal Flight (&euro;8,000)</button>
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadSimPreset('overspend_flight')">Overspend Flight (&euro;20,000)</button>
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadSimPreset('crypto_transfer')">Crypto Transfer (Disallowed)</button>
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadSimPreset('burst_subsidy')">Burst Subsidy (&euro;24,000)</button>
           </div>
         </div>
 
-        <form id="sim-form" onsubmit="executeSimulatorAction(event)" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+        <form id="sim-request-form" onsubmit="handleSimulatorSubmit(event)" style="display: flex; flex-direction: column; gap: 14px; margin-top: 6px;">
           <div>
-            <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Target Agent</label>
-            <select id="sim-agent" class="emergency-select" style="margin-top: 4px;">
+            <label style="font-size: 0.72rem; font-weight: 700; color: #94a3b8;">Agent Identifier</label>
+            <select id="sim-input-agent" class="search-box" style="margin-top: 4px; padding: 9px;">
               <option value="travel-agent-01">Travel Agent (travel-agent-01)</option>
               <option value="servicing-agent-01">Servicing Agent (servicing-agent-01)</option>
               <option value="subsidy-agent-01">Rewards Agent (subsidy-agent-01)</option>
@@ -1001,22 +1164,22 @@
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
-              <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Action Type</label>
-              <input type="text" id="sim-action" class="emergency-select" value="book_flight" style="margin-top: 4px;">
+              <label style="font-size: 0.72rem; font-weight: 700; color: #94a3b8;">Action Type</label>
+              <input type="text" id="sim-input-action" class="search-box" style="margin-top: 4px; padding: 9px;" value="book_flight">
             </div>
             <div>
-              <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Amount (&euro;)</label>
-              <input type="number" id="sim-amount" class="emergency-select" value="20000" style="margin-top: 4px;">
+              <label style="font-size: 0.72rem; font-weight: 700; color: #94a3b8;">Amount (&euro;)</label>
+              <input type="number" id="sim-input-amount" class="search-box" style="margin-top: 4px; padding: 9px;" value="20000">
             </div>
           </div>
 
           <div>
-            <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Action Description / Payload</label>
-            <input type="text" id="sim-desc" class="emergency-select" value="Flight booking DEL -> BOM for executive travel" style="margin-top: 4px;">
+            <label style="font-size: 0.72rem; font-weight: 700; color: #94a3b8;">Description / Context</label>
+            <input type="text" id="sim-input-desc" class="search-box" style="margin-top: 4px; padding: 9px;" value="Executive flight booking DEL to BOM">
           </div>
 
-          <button type="submit" class="btn-primary" style="justify-content: center; padding: 11px; margin-top: 8px;">
-            Evaluate Through Governance Gateway &rarr;
+          <button type="submit" class="btn-gold" style="justify-content: center; padding: 12px; margin-top: 6px;">
+            Execute Governance Evaluation &rarr;
           </button>
         </form>
 
@@ -1025,36 +1188,10 @@
   </div>
 
 
-  <!-- ====================================================================
-       MODAL 4: POLICY & SPEND CONFIGURATION MODAL
-       ==================================================================== -->
-  <div class="modal-overlay" id="modal-policies">
-    <div class="modal-box" style="max-width: 720px;">
-      <div class="modal-header">
-        <div class="modal-title-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-          <span class="modal-title">Agent Governance Policies &amp; Spend Caps</span>
-        </div>
-        <button class="modal-close-btn" onclick="closeModal('modal-policies')">&times;</button>
-      </div>
-
-      <div class="modal-body" id="policies-modal-content">
-        <!-- Rendered agent policy configs -->
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="closeModal('modal-policies')">Close</button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Toast Notification Container -->
+  <!-- Toast Notifications -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Main JavaScript Logic -->
+  <!-- Main JavaScript App Controller -->
   <script src="app.js"></script>
 </body>
 </html>
