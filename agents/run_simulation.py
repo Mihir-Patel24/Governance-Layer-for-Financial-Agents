@@ -45,7 +45,7 @@ def safe_str(val: Any) -> str:
 def export_action_stream(history_records: List[Dict[str, Any]], output_dir: str) -> Dict[str, str]:
     """
     Exports collected raw agent history stream into JSON and CSV files.
-    Preserves raw event timestamps, metadata, and governance decisions for future ML pipeline.
+    Preserves raw event timestamps, metadata, governance decisions, and LLM explanations for future ML pipeline.
     """
     os.makedirs(output_dir, exist_ok=True)
 
@@ -69,6 +69,7 @@ def export_action_stream(history_records: List[Dict[str, Any]], output_dir: str)
             "policy_passed": gov_resp.get("policy_passed", False),
             "execution_status": item.get("execution_status", "UNKNOWN"),
             "reason": gov_resp.get("reason", ""),
+            "llm_explanation": gov_resp.get("llm_explanation"),
             "audit_hash": gov_resp.get("audit_hash", ""),
             "execution_latency_ms": float(gov_resp.get("execution_latency_ms", 0.0)),
             "description": action.get("description", ""),
@@ -94,7 +95,7 @@ def export_action_stream(history_records: List[Dict[str, Any]], output_dir: str)
 def run_full_simulation():
     backend_url = os.getenv("GOVERNANCE_URL", "http://localhost:8000")
 
-    print_header("GOVERNANCE LAYER SIMULATION RUNNER")
+    print_header("GOVERNANCE LAYER SIMULATION RUNNER WITH GROQ LLM EXPLAINER")
     print(f"Backend Gateway : {backend_url}/api/governance/evaluate")
 
     client = GovernanceClient(base_url=backend_url)
@@ -147,6 +148,7 @@ def run_full_simulation():
     blocked_count = sum(1 for h in all_history if h.get("execution_status") == "BLOCKED")
     hitl_count = sum(1 for h in all_history if h.get("execution_status") == "PENDING_APPROVAL")
     error_count = sum(1 for h in all_history if h.get("execution_status") == "FAILED")
+    explained_count = sum(1 for h in all_history if (h.get("governance_response") or {}).get("llm_explanation"))
     total_count = len(all_history)
 
     # 5. Export Action Stream Data
@@ -160,6 +162,7 @@ def run_full_simulation():
     print(f"  - BLOCKED (Governance)  : {blocked_count}")
     print(f"  - HITL (Pending)        : {hitl_count}")
     print(f"  - ERRORS / FAIL-CLOSED  : {error_count}")
+    print(f"  - Groq LLM Explanations : {explained_count} / {total_count}")
     print("\n  Action Stream Exported To:")
     print(f"  - JSON : {export_paths['json']}")
     print(f"  - CSV  : {export_paths['csv']}")

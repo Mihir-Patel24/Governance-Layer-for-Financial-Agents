@@ -1,17 +1,28 @@
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from langgraph.graph import StateGraph, START, END
 
 from agents.state import AgentState
 from agents.governance_client import GovernanceClient
+from agents.llm_explainer import LLMExplainer
 
 
-def create_governance_workflow(governance_client: GovernanceClient):
+def create_governance_workflow(
+    governance_client: GovernanceClient,
+    llm_explainer: Optional[LLMExplainer] = None
+):
     """
     Factory function that builds and compiles a reusable LangGraph workflow.
     Orchestrates the lifecycle of an action through validation, governance check,
-    verdict evaluation (ALLOW / BLOCK / HITL_REQUIRED), and simulated execution.
+    verdict evaluation (ALLOW / BLOCK / HITL_REQUIRED), post-governance LLM explanation,
+    and simulated execution.
     """
+    # Lazy initialization of LLMExplainer if not explicitly passed
+    if llm_explainer is None:
+        try:
+            llm_explainer = LLMExplainer()
+        except Exception:
+            llm_explainer = None
 
     def prepare_action_node(state: AgentState) -> Dict[str, Any]:
         """Ensures action payload conforms to Person 1 ActionRequest schema defaults."""
@@ -37,6 +48,15 @@ def create_governance_workflow(governance_client: GovernanceClient):
         resp = governance_client.evaluate_action(action)
         verdict = resp.get("verdict", "BLOCK")
         error_msg = resp.get("error")
+
+        # Post-governance LLM explanation generation (Informational only)
+        if llm_explainer:
+            try:
+                explanation = llm_explainer.generate_explanation(resp, action)
+                resp["llm_explanation"] = explanation
+            except Exception:
+                # Groq API failures must NEVER alter governance verdict or execution decisions
+                resp["llm_explanation"] = None
 
         return {
             "governance_response": resp,

@@ -4,6 +4,7 @@ from datetime import datetime
 from agents.governance_client import GovernanceClient
 from agents.state import AgentState
 from agents.workflow import create_governance_workflow
+from agents.llm_explainer import LLMExplainer
 
 
 class BaseAgent:
@@ -19,12 +20,14 @@ class BaseAgent:
         agent_id: str,
         agent_type: str,
         governance_url: str = "http://localhost:8000",
-        governance_client: Optional[GovernanceClient] = None
+        governance_client: Optional[GovernanceClient] = None,
+        llm_explainer: Optional[LLMExplainer] = None
     ):
         self.agent_id = agent_id
         self.agent_type = agent_type
         self.governance_client = governance_client or GovernanceClient(base_url=governance_url)
-        self.workflow = create_governance_workflow(self.governance_client)
+        self.llm_explainer = llm_explainer
+        self.workflow = create_governance_workflow(self.governance_client, self.llm_explainer)
         self.history: List[Dict[str, Any]] = []
 
     def generate_action(
@@ -78,12 +81,15 @@ class BaseAgent:
 
     def _print_execution_feedback(self, state: AgentState):
         """
-        Helper method to print explicit, unambiguous execution feedback for each action.
+        Helper method to print explicit, unambiguous execution feedback for each action,
+        including the Groq LLM explanation if available.
         """
         verdict = state.get("verdict")
         action = state.get("current_action", {})
+        gov_resp = state.get("governance_response", {}) or {}
         act_type = action.get("action_type")
         amount = action.get("amount", 0.0)
+        explanation = gov_resp.get("llm_explanation")
 
         if verdict == "ALLOW":
             exec_str = "EXECUTED"
@@ -97,4 +103,7 @@ class BaseAgent:
         print(f"  Action     : {act_type}")
         print(f"  Amount     : Rs.{amount:,.2f}")
         print(f"  Governance : {verdict}")
-        print(f"  Execution  : {exec_str}\n")
+        print(f"  Execution  : {exec_str}")
+        if explanation:
+            print(f"  Explainer  : {explanation}")
+        print("")
