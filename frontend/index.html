@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SentinelAI — Governance Layer for Financial Agents</title>
+  <meta name="description" content="Real-time governance, spend caps, ML anomaly detection, and tamper-evident audit ledger for autonomous financial AI agents.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbbf24'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.67-3.13 9.04-7 10.18-3.87-1.14-7-5.51-7-10.18V6.3l7-3.12z'/></svg>">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ====================================================================
+         LEFT SIDEBAR
+         ==================================================================== -->
+    <aside class="sidebar">
+      
+      <!-- Brand Logo -->
+      <div class="sidebar-logo">
+        <div class="logo-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>SentinelAI</h1>
+          <span>Governance for Financial Agents</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="sidebar-nav">
+        
+        <div class="nav-group">
+          <a class="nav-item active" id="nav-command-center" onclick="setActiveNav('nav-command-center')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Command Center
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-section-title">MONITOR</div>
+          
+          <a class="nav-item" id="nav-agent-fleet" onclick="setActiveNav('nav-agent-fleet'); scrollToElement('section-agent-fleet');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Agent Fleet
+          </a>
+
+          <a class="nav-item" id="nav-live-actions" onclick="setActiveNav('nav-live-actions'); scrollToElement('section-live-feed');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+            Live Actions
+          </a>
+
+          <a class="nav-item" id="nav-alerts" onclick="setActiveNav('nav-alerts'); scrollToElement('section-recent-alerts');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            Alerts &amp; Incidents
+            <span class="nav-badge" id="sidebar-alert-badge">3</span>
+          </a>
+
+          <a class="nav-item" id="nav-analytics" onclick="setActiveNav('nav-analytics'); openModal('modal-audit-ledger');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            Analytics
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-section-title">GOVERNANCE</div>
+          
+          <a class="nav-item" id="nav-policies" onclick="setActiveNav('nav-policies'); openModal('modal-policies');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Policies &amp; Rules
+          </a>
+
+          <a class="nav-item" id="nav-spend" onclick="setActiveNav('nav-spend'); openModal('modal-policies');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+              <path d="M12 6v12"/>
+            </svg>
+            Spend &amp; Budgets
+          </a>
+
+          <a class="nav-item" id="nav-killswitch" onclick="setActiveNav('nav-killswitch'); scrollToElement('section-emergency-stop');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Kill Switch
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-section-title">AUDIT &amp; COMPLIANCE</div>
+          
+          <a class="nav-item" id="nav-audit" onclick="setActiveNav('nav-audit'); openModal('modal-audit-ledger');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            Audit Ledger
+          </a>
+
+          <a class="nav-item" id="nav-reports" onclick="setActiveNav('nav-reports'); exportComplianceCSV();">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Reports
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-section-title">ADMIN</div>
+          
+          <a class="nav-item" id="nav-management" onclick="setActiveNav('nav-management'); openModal('modal-policies');">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M19 8v6"/>
+              <path d="M22 11h-6"/>
+            </svg>
+            Agent Management
+          </a>
+
+          <a class="nav-item" id="nav-settings" onclick="setActiveNav('nav-settings'); toggleBackendMode();">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            System Settings
+          </a>
+        </div>
+      </nav>
+
+      <!-- Sidebar Mountain Quote Card -->
+      <div class="sidebar-quote-card" style="background-image: url('assets/sidebar_mountain.jpg');">
+        <div class="quote-content">
+          <div class="quote-title">A seatbelt for AI agents.</div>
+          <div class="quote-subtitle">Control today. Confident tomorrow.</div>
+        </div>
+      </div>
+
+    </aside>
+
+
+    <!-- ====================================================================
+         MAIN APP CONTENT WRAPPER
+         ==================================================================== -->
+    <main class="main-wrapper">
+      
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="search-input" id="global-search-input" placeholder="Search agents, transactions, policies..." onkeyup="filterFeedTable(this.value)">
+            <span class="search-shortcut">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Backend Connection Status Pill -->
+          <div class="status-indicator" id="system-status-indicator" title="Connected to SentinelAI Unified Governance Gateway">
+            <span class="status-dot"></span>
+            <span id="system-status-text">All systems operational</span>
+          </div>
+
+          <!-- Notification Bell -->
+          <button class="topbar-btn" onclick="scrollToElement('section-recent-alerts')" title="3 unread security alerts">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="badge-alert">3</span>
+          </button>
+
+          <!-- User Avatar Profile -->
+          <div class="user-profile" title="Administrator Profile">
+            <div class="avatar-circle">SN</div>
+            <span class="user-name">Admin</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Body Container -->
+      <div class="content-body">
+        
+        <!-- ==================================================================
+             HERO BANNER
+             ================================================================== -->
+        <section class="hero-banner" style="background-image: url('assets/hero_building.jpg');">
+          <div class="hero-overlay"></div>
+          
+          <div class="hero-text">
+            <div class="hero-tag">Real-Time Governance for Autonomous Financial Agents</div>
+            <h2 class="hero-title">Autonomy<br>with Accountability.</h2>
+            <p class="hero-desc">
+              Monitor, control and explain every financial agent action in real-time. Enforce policies, prevent risk and maintain a tamper-evident audit trail.
+            </p>
+            <div class="hero-actions">
+              <button class="btn-primary" onclick="scrollToElement('section-live-feed')">
+                Monitor Live &rarr;
+              </button>
+              <button class="btn-secondary" onclick="exportComplianceCSV()">
+                View Reports
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-badge-card">
+            <div class="badge-card-accent"></div>
+            <div class="badge-card-title">Trusted Governance for Financial AI</div>
+            <div class="badge-pillars">
+              <div class="pillar-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                CONTROL
+              </div>
+              <div class="pillar-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                COMPLIANCE
+              </div>
+              <div class="pillar-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                CONFIDENCE
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==================================================================
+             5 METRIC KPI CARDS ROW
+             ================================================================== -->
+        <section class="metrics-row">
+          
+          <!-- Card 1: Total Agents -->
+          <div class="metric-card" onclick="scrollToElement('section-agent-fleet')">
+            <div class="metric-header">
+              <div class="metric-icon-box gray">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <span class="metric-chevron">&rsaquo;</span>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number" id="kpi-total-agents">3</span>
+            </div>
+            <div class="metric-label">Total Agents</div>
+            <div class="metric-footer">
+              <span id="kpi-agent-status-breakdown">2 Active | 1 Paused</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Actions Today -->
+          <div class="metric-card" onclick="scrollToElement('section-live-feed')">
+            <div class="metric-header">
+              <div class="metric-icon-box green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <span class="metric-chevron">&rsaquo;</span>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number" id="kpi-actions-today">248</span>
+              <svg class="sparkline-svg" viewBox="0 0 55 18">
+                <path d="M0,15 Q10,12 20,14 T40,6 T55,2" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="metric-label">Actions Today</div>
+            <div class="metric-footer">
+              <span class="trend-badge up-green">&uarr; 12% from yesterday</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Blocked Actions -->
+          <div class="metric-card" onclick="filterFeedByVerdict('BLOCK')">
+            <div class="metric-header">
+              <div class="metric-icon-box red">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <span class="metric-chevron">&rsaquo;</span>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number" id="kpi-blocked-actions">14</span>
+              <!-- Mini Bar Graph -->
+              <svg class="sparkline-svg" viewBox="0 0 55 18">
+                <rect x="5" y="10" width="5" height="8" fill="#fca5a5" rx="1"/>
+                <rect x="15" y="6" width="5" height="12" fill="#fca5a5" rx="1"/>
+                <rect x="25" y="12" width="5" height="6" fill="#fca5a5" rx="1"/>
+                <rect x="35" y="4" width="5" height="14" fill="#f87171" rx="1"/>
+                <rect x="45" y="2" width="5" height="16" fill="#ef4444" rx="1"/>
+              </svg>
+            </div>
+            <div class="metric-label">Blocked Actions</div>
+            <div class="metric-footer">
+              <span class="trend-badge up-red">&uarr; 3 new</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Anomalies Detected -->
+          <div class="metric-card" onclick="filterFeedByVerdict('HITL_REQUIRED')">
+            <div class="metric-header">
+              <div class="metric-icon-box amber">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                </svg>
+              </div>
+              <span class="metric-chevron">&rsaquo;</span>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number" id="kpi-anomalies-count">6</span>
+              <svg class="sparkline-svg" viewBox="0 0 55 18">
+                <rect x="5" y="12" width="5" height="6" fill="#fde68a" rx="1"/>
+                <rect x="15" y="8" width="5" height="10" fill="#fde68a" rx="1"/>
+                <rect x="25" y="10" width="5" height="8" fill="#fde68a" rx="1"/>
+                <rect x="35" y="5" width="5" height="13" fill="#f59e0b" rx="1"/>
+                <rect x="45" y="3" width="5" height="15" fill="#d97706" rx="1"/>
+              </svg>
+            </div>
+            <div class="metric-label">Anomalies Detected</div>
+            <div class="metric-footer">
+              <span class="trend-badge up-amber">&uarr; 2 new</span>
+            </div>
+          </div>
+
+          <!-- Card 5: Total Spend Today -->
+          <div class="metric-card" onclick="openModal('modal-policies')">
+            <div class="metric-header">
+              <div class="metric-icon-box emerald">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="5" width="20" height="14" rx="2"/>
+                  <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+              </div>
+              <span class="metric-chevron">&rsaquo;</span>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number" id="kpi-total-spend">&euro;42,580</span>
+            </div>
+            <div class="metric-label">Total Spend Today</div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill emerald" id="kpi-spend-progress" style="width: 45%;"></div>
+            </div>
+            <div class="metric-footer" style="margin-top: 6px;">
+              <span id="kpi-spend-ratio-text">45% of &euro;1,00,000</span>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================================
+             MIDDLE SPLIT (AGENT FLEET & EMERGENCY CONTROLS)
+             ================================================================== -->
+        <section class="middle-grid">
+          
+          <!-- LEFT: Agent Fleet -->
+          <div class="agent-fleet-section" id="section-agent-fleet">
+            <div class="section-header">
+              <div class="section-title-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <h3 class="section-title">Agent Fleet</h3>
+              </div>
+              <a class="section-link" onclick="openModal('modal-policies')">
+                View All Agents &rarr;
+              </a>
+            </div>
+
+            <!-- 3 Fleet Cards -->
+            <div class="agent-cards-row">
+              
+              <!-- Agent 1: Travel Agent -->
+              <div class="agent-card" id="card-travel-agent" onclick="inspectAgent('travel-agent-01')">
+                <div class="agent-card-header">
+                  <div class="agent-identity">
+                    <div class="agent-icon-box blue">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="agent-name-title">Travel Agent</div>
+                      <div class="agent-desc">Flight &amp; hotel bookings</div>
+                    </div>
+                  </div>
+                  <span class="status-badge active" id="badge-travel-agent">&bull; Active</span>
+                </div>
+
+                <div class="agent-spend-box">
+                  <div class="spend-labels">
+                    <span>Today's Spend</span>
+                    <span class="spend-percentage" id="spend-pct-travel">83%</span>
+                  </div>
+                  <div class="spend-amount" id="spend-amount-travel">&euro;12,450 / &euro;15,000</div>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar-fill blue" id="spend-bar-travel" style="width: 83%;"></div>
+                  </div>
+                </div>
+
+                <div class="agent-stats-footer">
+                  <div class="agent-stat-item">
+                    <strong id="stat-actions-travel">42</strong>
+                    <span>Actions</span>
+                  </div>
+                  <div class="agent-stat-item">
+                    <strong class="danger" id="stat-blocked-travel">1</strong>
+                    <span>Blocked</span>
+                  </div>
+                  <div class="agent-stat-item">
+                    <strong id="stat-anomalies-travel">0</strong>
+                    <span>Anomalies</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Agent 2: Servicing Agent -->
+              <div class="agent-card" id="card-servicing-agent" onclick="inspectAgent('servicing-agent-01')">
+                <div class="agent-card-header">
+                  <div class="agent-identity">
+                    <div class="agent-icon-box purple">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="agent-name-title">Servicing Agent</div>
+                      <div class="agent-desc">Customer support &amp; fee reversals</div>
+                    </div>
+                  </div>
+                  <span class="status-badge active" id="badge-servicing-agent">&bull; Active</span>
+                </div>
+
+                <div class="agent-spend-box">
+                  <div class="spend-labels">
+                    <span>Today's Spend</span>
+                    <span class="spend-percentage" id="spend-pct-servicing">73%</span>
+                  </div>
+                  <div class="spend-amount" id="spend-amount-servicing">&euro;18,230 / &euro;25,000</div>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar-fill purple" id="spend-bar-servicing" style="width: 73%;"></div>
+                  </div>
+                </div>
+
+                <div class="agent-stats-footer">
+                  <div class="agent-stat-item">
+                    <strong id="stat-actions-servicing">120</strong>
+                    <span>Actions</span>
+                  </div>
+                  <div class="agent-stat-item">
+                    <strong class="danger" id="stat-blocked-servicing">5</strong>
+                    <span>Blocked</span>
+                  </div>
+                  <div class="agent-stat-item">
+                    <strong class="warning" id="stat-anomalies-servicing">4</strong>
+                    <span>Anomalies</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Agent 3: Rewards Agent -->
+              <div class="agent-card" id="card-rewards-agent" onclick="inspectAgent('subsidy-agent-01')">
+                <div class="agent-card-header">
+                  <div class="agent-identity">
+                    <div class="agent-icon-box violet">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 12 20 22 4 22 4 12"/>
+                        <rect x="2" y="7" width="20" height="5"/>
+                        <line x1="12" y1="22" x2="12" y2="7"/>
+                        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="agent-name-title">Rewards Agent</div>
+                      <div class="agent-desc">Rewards &amp; subsidies disbursement</div>
+                    </div>
+                  </div>
+                  <span class="status-badge active" id="badge-rewards-agent">&bull; Active</span>
+                </div>
+
+                <div class="agent-spend-box">
+                  <div class="spend-labels">
+                    <span>Today's Spend</span>
+                    <span class="spend-percentage" id="spend-pct-rewards">59%</span>
+                  </div>
+                  <div class="spend-amount" id="spend-amount-rewards">&euro;11,900 / &euro;20,000</div>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar-fill violet" id="spend-bar-rewards" style="width: 59%;"></div>
+                  </div>
+                </div>
+
+                <div class="agent-stats-footer">
+                  <div class="agent-stat-item">
+                    <strong id="stat-actions-rewards">86</strong>
+                    <span>Actions</span>
+                  </div>
+                  <div class="agent-stat-item">
+                    <strong class="danger" id="stat-blocked-rewards">8</strong>
+                    <span>Blocked</span>
+                  </div>
+                  <div class="agent-stat-item">
+                    <strong class="warning" id="stat-anomalies-rewards">2</strong>
+                    <span>Anomalies</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- RIGHT: Emergency Stop & Recent Alerts -->
+          <div class="controls-column">
+            
+            <!-- Emergency Stop Card -->
+            <div class="emergency-card" id="section-emergency-stop">
+              <div class="emergency-header">
+                <div class="emergency-icon-wrap">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="emergency-title">Emergency Stop</div>
+                  <div class="emergency-desc">Instantly halt an agent or the entire fleet</div>
+                </div>
+              </div>
+
+              <div class="emergency-actions-row">
+                <button class="btn-emergency-halt" onclick="haltSelectedAgent()">
+                  Halt Selected Agent
+                </button>
+                <button class="btn-emergency-stop" onclick="triggerMasterKillSwitch()">
+                  Stop Entire Fleet
+                </button>
+              </div>
+
+              <div class="emergency-select-wrap">
+                <label for="agent-halt-select">Select Agent</label>
+                <select id="agent-halt-select" class="emergency-select">
+                  <option value="" disabled selected>Choose agent...</option>
+                  <option value="travel-agent-01">Travel Agent (travel-agent-01)</option>
+                  <option value="servicing-agent-01">Servicing Agent (servicing-agent-01)</option>
+                  <option value="subsidy-agent-01">Rewards Agent (subsidy-agent-01)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Recent Alerts Card -->
+            <div class="alerts-card" id="section-recent-alerts">
+              <div class="alerts-header">
+                <div class="alerts-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="4" y1="9" x2="20" y2="9"/>
+                    <line x1="4" y1="15" x2="20" y2="15"/>
+                    <line x1="10" y1="3" x2="8" y2="21"/>
+                    <line x1="16" y1="3" x2="14" y2="21"/>
+                  </svg>
+                  Recent Alerts
+                </div>
+                <a class="section-link" onclick="filterFeedByVerdict('BLOCK')">View All &rarr;</a>
+              </div>
+
+              <div class="alerts-list" id="recent-alerts-container">
+                
+                <div class="alert-item" onclick="openExplanationForScenario('high_val_travel')">
+                  <span class="alert-time">11:42 AM</span>
+                  <div class="alert-icon-mini red">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/>
+                    </svg>
+                  </div>
+                  <div class="alert-body">
+                    <div class="alert-headline">High Value Transaction Blocked</div>
+                    <div class="alert-subtext">Travel Agent attempted &euro;20,000 flight booking</div>
+                  </div>
+                </div>
+
+                <div class="alert-item" onclick="openExplanationForScenario('anomaly_servicing')">
+                  <span class="alert-time">11:40 AM</span>
+                  <div class="alert-icon-mini orange">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    </svg>
+                  </div>
+                  <div class="alert-body">
+                    <div class="alert-headline">Anomaly Detected</div>
+                    <div class="alert-subtext">Unusual pattern in Servicing Agent actions</div>
+                  </div>
+                </div>
+
+                <div class="alert-item" onclick="openExplanationForScenario('policy_hours')">
+                  <span class="alert-time">11:38 AM</span>
+                  <div class="alert-icon-mini red">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/>
+                    </svg>
+                  </div>
+                  <div class="alert-body">
+                    <div class="alert-headline">Policy Violation</div>
+                    <div class="alert-subtext">Action outside operating hours</div>
+                  </div>
+                </div>
+
+                <div class="alert-item" onclick="openExplanationForScenario('high_anomaly_rewards')">
+                  <span class="alert-time">11:35 AM</span>
+                  <div class="alert-icon-mini blue">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                  </div>
+                  <div class="alert-body">
+                    <div class="alert-headline">High Anomaly Score</div>
+                    <div class="alert-subtext">Rewards Agent anomaly score: 0.78</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- ==================================================================
+             LIVE ACTION FEED TABLE
+             ================================================================== -->
+        <section class="feed-card" id="section-live-feed">
+          <div class="feed-header-wrap">
+            <div class="feed-title-left">
+              <div class="feed-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                Live Action Feed
+              </div>
+
+              <!-- Filter Tabs -->
+              <div class="feed-filter-tabs">
+                <button class="filter-tab active" id="tab-all" onclick="filterFeedTable('ALL')">All (248)</button>
+                <button class="filter-tab" id="tab-allowed" onclick="filterFeedTable('ALLOW')">Allowed (214)</button>
+                <button class="filter-tab" id="tab-blocked" onclick="filterFeedTable('BLOCK')">Blocked (14)</button>
+                <button class="filter-tab" id="tab-hitl" onclick="filterFeedTable('HITL_REQUIRED')">HITL Required (6)</button>
+              </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="feed-actions-right">
+              <button class="btn-stream-toggle streaming" id="stream-toggle-btn" onclick="toggleStreamSimulation()">
+                <span class="status-dot"></span>
+                <span>Live Sim: ON</span>
+              </button>
+
+              <button class="btn-test-action" onclick="openModal('modal-action-simulator')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Test Action
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="table-responsive">
+            <table class="action-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Agent</th>
+                  <th>Action</th>
+                  <th>Amount (&euro;)</th>
+                  <th>Decision</th>
+                  <th>Risk Score</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="action-feed-tbody">
+                <!-- Dynamically populated rows will appear here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- ==================================================================
+             BOTTOM 4 NAVIGATION QUICK CARDS
+             ================================================================== -->
+        <section class="quick-cards-row">
+          
+          <div class="quick-card" onclick="openModal('modal-audit-ledger')">
+            <div class="quick-card-left">
+              <div class="quick-icon-box blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <div>
+                <div class="quick-card-title">Audit Ledger</div>
+                <div class="quick-card-subtext">Check tamper-evident logs</div>
+              </div>
+            </div>
+            <span class="quick-card-arrow">&rsaquo;</span>
+          </div>
+
+          <div class="quick-card" onclick="openModal('modal-policies')">
+            <div class="quick-card-left">
+              <div class="quick-icon-box indigo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="quick-card-title">Policy Management</div>
+                <div class="quick-card-subtext">Update agent policies</div>
+              </div>
+            </div>
+            <span class="quick-card-arrow">&rsaquo;</span>
+          </div>
+
+          <div class="quick-card" onclick="openModal('modal-policies')">
+            <div class="quick-card-left">
+              <div class="quick-icon-box amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+                </svg>
+              </div>
+              <div>
+                <div class="quick-card-title">Spend &amp; Budgets</div>
+                <div class="quick-card-subtext">Manage spending limits</div>
+              </div>
+            </div>
+            <span class="quick-card-arrow">&rsaquo;</span>
+          </div>
+
+          <div class="quick-card" onclick="exportComplianceCSV()">
+            <div class="quick-card-left">
+              <div class="quick-icon-box cyan">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"/>
+                  <line x1="12" y1="20" x2="12" y2="4"/>
+                  <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+              </div>
+              <div>
+                <div class="quick-card-title">Analytics &amp; Reports</div>
+                <div class="quick-card-subtext">Generate compliance reports</div>
+              </div>
+            </div>
+            <span class="quick-card-arrow">&rsaquo;</span>
+          </div>
+
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+
+  <!-- ====================================================================
+       MODAL 1: "WHY WAS THIS BLOCKED?" AI EXPLAINER MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="modal-explainer">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span class="modal-title">Why Was This Action Blocked?</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-explainer')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Summary Strip -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
+          <div>
+            <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 700;">Agent &amp; Action</div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a;" id="modal-agent-action-text">Travel Agent &bull; Book Flight (DEL &rarr; BOM)</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 700;">Amount Attempted</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: #dc2626;" id="modal-amount-text">&euro;20,000.00</div>
+          </div>
+        </div>
+
+        <!-- Groq Llama-3 AI Explanation Box -->
+        <div class="ai-explainer-card">
+          <div class="ai-explainer-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+              <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+              <path d="M12 12L2.1 7.1"/>
+              <path d="M12 12v10"/>
+            </svg>
+            GROQ LLAMA-3 AI NATURAL LANGUAGE EXPLANATION
+          </div>
+          <div class="ai-explainer-text" id="modal-llm-explanation">
+            Loading AI explanation...
+          </div>
+        </div>
+
+        <!-- Inspection Breakdown Table -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; margin-bottom: 4px;">POLICY EVALUATION</div>
+            <div style="font-size: 0.82rem; font-weight: 600; color: #dc2626;" id="modal-policy-verdict">Single Transaction Cap Exceeded</div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Limit: &euro;15,000.00 | Attempted: &euro;20,000.00</div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
+            <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; margin-bottom: 4px;">ISOLATION FOREST ML ANOMALY</div>
+            <div style="font-size: 0.82rem; font-weight: 600; color: #d97706;" id="modal-ml-score">Risk Score: 0.92 (High Outlier)</div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Threshold: &gt;0.70 triggers security alert</div>
+          </div>
+        </div>
+
+        <!-- Cryptographic Audit Hash -->
+        <div class="audit-hash-chip">
+          <span class="hash-label">IMMUTABLE SHA-256 AUDIT LEDGER BLOCK HASH</span>
+          <span id="modal-audit-hash">4a8b7921c5f3e1a09d3b4e7a8f1c0d2e5b7a9c3d1f4e6a8b0c2d4e6f8a0b2c4e</span>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-explainer')">Dismiss</button>
+        <button class="btn-primary" onclick="openModal('modal-audit-ledger')">View in Audit Ledger &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ====================================================================
+       MODAL 2: CRYPTOGRAPHIC AUDIT LEDGER & TAMPER VERIFICATION
+       ==================================================================== -->
+  <div class="modal-overlay" id="modal-audit-ledger">
+    <div class="modal-box" style="max-width: 820px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <span class="modal-title">Cryptographic SHA-256 Audit Ledger</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-audit-ledger')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Ledger Health Status Banner -->
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-sm); padding: 14px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: #10b981; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">&check;</div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: #065f46;">Mathematical Integrity Verified (SHA-256 Hash Chain)</div>
+              <div style="font-size: 0.72rem; color: #047857;">All consecutive block hashes valid and mathematically linked to Genesis Block.</div>
+            </div>
+          </div>
+          <button class="btn-secondary" style="font-size: 0.72rem; padding: 6px 12px;" onclick="verifyLedgerIntegrity()">
+            Re-verify Chain
+          </button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: #334155;">Ledger Blocks (<span id="ledger-count-text">4</span> Blocks)</span>
+          <button class="btn-secondary" style="font-size: 0.72rem; padding: 6px 12px;" onclick="exportComplianceCSV()">
+            Export Compliance CSV
+          </button>
+        </div>
+
+        <!-- Ledger Blocks List -->
+        <div id="ledger-blocks-container" style="display: flex; flex-direction: column; gap: 10px; max-height: 380px; overflow-y: auto;">
+          <!-- Dynamically populated blocks -->
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-audit-ledger')">Close</button>
+        <button class="btn-primary" onclick="exportComplianceCSV()">Download Audit Report</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ====================================================================
+       MODAL 3: TEST ACTION SIMULATOR / PLAYGROUND
+       ==================================================================== -->
+  <div class="modal-overlay" id="modal-action-simulator">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          <span class="modal-title">Live Governance Test Playground</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-action-simulator')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.8rem; color: #64748b;">
+          Trigger an action request through the live Policy Gateway. The request will be evaluated in real-time by the Policy Engine, Spend Cap Tracker, Isolation Forest ML Detector, and Groq Explainer.
+        </p>
+
+        <!-- Preset Scenarios -->
+        <div>
+          <label style="font-size: 0.72rem; font-weight: 700; color: #475569; display: block; margin-bottom: 6px;">LOAD PRESET DEMO SCENARIO</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('valid_flight')">
+              &bull; Normal Flight (&euro;8,000)
+            </button>
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('overspend_flight')">
+              &bull; Overspend Flight (&euro;20,000)
+            </button>
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('unauthorized_crypto')">
+              &bull; Crypto Transfer (Disallowed)
+            </button>
+            <button class="btn-secondary" style="font-size: 0.72rem; text-align: left; padding: 8px;" onclick="loadPreset('anomaly_subsidy')">
+              &bull; Anomalous Subsidy (&euro;24,000)
+            </button>
+          </div>
+        </div>
+
+        <form id="sim-form" onsubmit="executeSimulatorAction(event)" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Target Agent</label>
+            <select id="sim-agent" class="emergency-select" style="margin-top: 4px;">
+              <option value="travel-agent-01">Travel Agent (travel-agent-01)</option>
+              <option value="servicing-agent-01">Servicing Agent (servicing-agent-01)</option>
+              <option value="subsidy-agent-01">Rewards Agent (subsidy-agent-01)</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Action Type</label>
+              <input type="text" id="sim-action" class="emergency-select" value="book_flight" style="margin-top: 4px;">
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Amount (&euro;)</label>
+              <input type="number" id="sim-amount" class="emergency-select" value="20000" style="margin-top: 4px;">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: #475569;">Action Description / Payload</label>
+            <input type="text" id="sim-desc" class="emergency-select" value="Flight booking DEL -> BOM for executive travel" style="margin-top: 4px;">
+          </div>
+
+          <button type="submit" class="btn-primary" style="justify-content: center; padding: 11px; margin-top: 8px;">
+            Evaluate Through Governance Gateway &rarr;
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ====================================================================
+       MODAL 4: POLICY & SPEND CONFIGURATION MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="modal-policies">
+    <div class="modal-box" style="max-width: 720px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span class="modal-title">Agent Governance Policies &amp; Spend Caps</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-policies')">&times;</button>
+      </div>
+
+      <div class="modal-body" id="policies-modal-content">
+        <!-- Rendered agent policy configs -->
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-policies')">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Main JavaScript Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

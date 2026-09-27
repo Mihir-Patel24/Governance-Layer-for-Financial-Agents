@@ -1,0 +1,149 @@
+================================================================================
+PROJECT SUMMARY: GOVERNANCE LAYER FOR FINANCIAL AGENTS (SENTINELAI)
+================================================================================
+Generated: As of current codebase and architectural specification
+Project Mission: "A Seatbelt for Financial AI Agents" - A real-time, fail-closed,
+cryptographically verifiable governance, risk control, and observability layer 
+safeguarding autonomous financial agent actions before execution.
+
+--------------------------------------------------------------------------------
+1. EXECUTIVE OVERVIEW & VALUE PROPOSITION
+--------------------------------------------------------------------------------
+Autonomous AI agents are increasingly tasked with financial transactions, customer 
+servicing, and funds disbursement. Without deterministic guardrails, agents risk 
+financial drift, hallucinated transactions, catastrophic budget overspends, and 
+policy breaches.
+
+SentinelAI acts as an inline, low-latency Governance Plane that intercepts every 
+agent action request, checks dynamic policies and rolling spend limits, evaluates 
+out-of-distribution behavioral anomalies via Machine Learning, generates plain-
+English LLM explanations for rejections, records every event in an immutable 
+SHA-256 hash-chained audit ledger, and equips human operators with instant circuit-
+breaker kill switches.
+
+--------------------------------------------------------------------------------
+2. SYSTEM ARCHITECTURE & DATAFLOW
+--------------------------------------------------------------------------------
+The system is divided into four primary tiers:
+
+[1] SIMULATED AGENT FLEET (LangGraph):
+    - Multi-domain financial agents generating continuous action streams:
+      * Travel Agent (Corporate flight/hotel bookings)
+      * Servicing Agent (Customer support, fee reversals, credits)
+      * Rewards / Subsidy Agent (Government disbursements, direct credits)
+
+[2] GOVERNANCE PLANE (Core Backend):
+    - Policy Gateway API (FastAPI): High-throughput REST gateway with CORS, fail-
+      closed latency timeouts, and structured Pydantic schemas.
+    - Dynamic Policy Engine: Validates action permissions, transaction limits, 
+      operating time-of-day windows, and agent statuses (Active, Paused, Terminated).
+    - Spend Cap Service: Real-time multi-window budget tracker (daily/monthly caps) 
+      preventing agent budget exhaustion or balance drain.
+    - Kill Switch Circuit Breaker: Per-agent pause/terminate and instant global 
+      fleet-wide emergency stop.
+    - ML Anomaly Detector (scikit-learn Isolation Forest): Unsupervised model 
+      evaluating transaction amounts, velocity, limit ratios, and execution hours 
+      to detect anomalies and route suspicious actions to Human-In-The-Loop (HITL).
+    - LLM Explanation Layer (Groq Llama-3 / fallback): Translates technical rule 
+      blocks and anomaly scores into concise, plain-English human-readable rationale.
+
+[3] DATA & AUDIT LAYER:
+    - PostgreSQL / SQLite fallback: Agent registry, policy configurations, spend 
+      state tracking.
+    - Cryptographic SHA-256 Hash-Chained Audit Ledger: Append-only ledger where 
+      each block links to the preceding block hash (starting from Genesis), 
+      providing mathematical tamper evidence and one-click compliance CSV export.
+    - Redis (Targeted): Policy decision and cache acceleration layer.
+
+[4] OPERATOR DASHBOARD (The Face):
+    - React-based real-time dashboard displaying:
+      * Live agent fleet health & active states
+      * Spend meters & budget utilization
+      * Real-time action stream & violation alerts
+      * "Why was this blocked?" plain-English AI explanations
+      * Emergency Stop Kill Switch buttons (per-agent and fleet-wide)
+
+DATAFLOW PIPELINE:
+  Agent Action Request 
+    --> Policy Gateway API (/api/v1/governance/evaluate)
+    --> Global Kill Switch check (circuit breaker)
+    --> Dynamic Policy Rules check (whitelist, single tx limit, time window)
+    --> Spend Cap Service (budget reservation & limits)
+    --> Isolation Forest ML Anomaly Scoring (detects subtle drift -> triggers HITL)
+    --> Groq Llama-3 Natural Language Explanation generation
+    --> SHA-256 Hash-Chained Audit Ledger commit
+    --> Immediate Verdict Returned: ALLOW | BLOCK | HITL_REQUIRED
+
+--------------------------------------------------------------------------------
+3. 4-PERSON CO-FOUNDER VERTICAL OWNERSHIP
+--------------------------------------------------------------------------------
+The build is architected as 4 independent vertical slices so each owner can demo 
+standalone on Day 1 without waiting on dependencies:
+
+👤 PERSON 1 — "THE POLICY ARCHITECT" (Backend + Policy Engine Lead)
+   - Scope: Permission schemas, dynamic policy validation rules, FastAPI Gateway, 
+     PostgreSQL database schemas for agents and policies.
+   - Day-1 Deliverable: Working /evaluate (or /check-action) API returning allow/deny 
+     for agents with fail-closed timeout protection.
+
+👤 PERSON 2 — "THE ENFORCER" (Spend Cap + Kill Switch + Audit Log Lead)
+   - Scope: Real-time spend cap tracking (daily/monthly limits), circuit breaker 
+     kill switch (individual + global), SHA-256 tamper-evident hash-chained audit 
+     log, compliance CSV export API.
+   - Day-1 Deliverable: Verifiable demo of spend cap breach blocking + tamper-evident 
+     audit log verification.
+
+👤 PERSON 3 — "THE AI LAYER" (ML + LLM Lead)
+   - Scope: Synthetic financial agent action data, Isolation Forest anomaly detector, 
+     Groq Llama-3 natural language explanation generator, LangGraph simulated 
+     agents (travel, servicing, rewards).
+   - Day-1 Deliverable: Anomaly detector flagging abnormal behavior + LLM explanation 
+     generator outputting human-readable rationale.
+
+👤 PERSON 4 — "THE FACE" (Frontend Dashboard + Product/Pitch Lead)
+   - Scope: React operator dashboard, spend meters, real-time alert feed, Big Red 
+     Emergency Stop buttons, "why was this blocked" panel, pitch deck & narrative.
+   - Day-1 Deliverable: Interactive UI wired to mock/live endpoints ready for demo.
+
+--------------------------------------------------------------------------------
+4. CURRENT REPOSITORY IMPLEMENTATION STATUS (AS OF NOW)
+--------------------------------------------------------------------------------
+Repository Branch: frontend+backend (incorporating Person 1, 2, and 3 deliverables)
+
+Implemented Modules & Architecture:
+- [x] FastAPI Core Server (backend/app/main.py):
+      Mounted with CORS, health check route, and /api/v1 versioned routing.
+- [x] Dynamic Policy Engine (backend/app/services/policy_engine.py):
+      Dynamic agent registry, action whitelists, single-tx limits, operating window 
+      validation, and strict fail-closed execution timer (<20ms).
+- [x] Spend Cap Service (backend/app/services/spend_cap_service.py):
+      Daily rolling spend limits tracking with reserve-or-reject logic.
+- [x] Kill Switch Service (backend/app/services/kill_switch_service.py):
+      Circuit breaker emergency stop halting individual agents or entire fleet.
+- [x] Cryptographic Audit Ledger (backend/app/services/audit_service.py):
+      SHA-256 block ledger with genesis block, prev_hash chaining, integrity 
+      verification algorithm, and CSV compliance export.
+- [x] ML Anomaly Detector (backend/app/services/anomaly_service.py):
+      Isolation Forest trained on baseline telemetry with heuristic off-hours and 
+      ratio checks flagging risk scores (>0.70 triggers HITL_REQUIRED).
+- [x] LLM Explainer Service (backend/app/services/llm_explainer_service.py):
+      Groq Llama-3-70b-versatile natural language rationale generator with zero-
+      latency structured template fallback.
+- [x] Unified Governance Orchestrator (backend/app/services/governance_orchestrator.py):
+      End-to-end pipeline connecting Policy -> Caps -> ML -> LLM -> Audit Ledger.
+- [x] REST Endpoints (backend/app/api/v1/endpoints/):
+      * POST /api/v1/governance/evaluate (inline governance evaluation)
+      * GET /api/v1/agents/ and POST /api/v1/agents/register (agent management)
+      * GET /api/v1/audit/audit-log (cryptographic ledger & verification)
+      * GET /api/v1/audit/compliance/export (one-click CSV compliance download)
+      * POST /api/v1/kill-switch/global (emergency circuit breaker trigger)
+- [x] Automated Test Suite (backend/test_governance.py):
+      Tested and verified 4 end-to-end scenarios (Normal Action, Policy Violation, 
+      Spend Cap Violation, ML Anomaly / HITL Flag) + SHA-256 Ledger Integrity Check.
+
+Remaining / Next Milestones:
+- [ ] LangGraph multi-agent simulation scripts generating live continuous traffic.
+- [ ] React Operator Dashboard (Person 4 UI) connecting live to FastAPI backend.
+- [ ] 5-minute live judge demo rehearsal.
+
+================================================================================
