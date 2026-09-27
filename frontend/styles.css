@@ -485,7 +485,7 @@ body {
 }
 
 .btn-gold {
-  background-color: var(--accent-primary);
+  background-color: #000000;
   color: #ffffff;
   border: none;
   padding: 8px 18px;
@@ -500,7 +500,7 @@ body {
 }
 
 .btn-gold:hover {
-  background-color: #047857;
+  background-color: #1e293b;
   transform: translateY(-1px);
 }
 
@@ -525,9 +525,9 @@ body {
 }
 
 .btn-danger {
-  background-color: #fff1f2;
-  color: var(--status-blocked);
-  border: 1px solid var(--status-blocked-border);
+  background-color: #ffffff;
+  color: #991b1b;
+  border: 1px solid #fee2e2;
   padding: 8px 16px;
   border-radius: var(--radius-full);
   font-size: 0.82rem;
@@ -540,7 +540,8 @@ body {
 }
 
 .btn-danger:hover {
-  background-color: #ffe4e6;
+  background-color: #fef2f2;
+  border-color: #fca5a5;
 }
 
 /* ==========================================================================
@@ -962,51 +963,81 @@ input:checked + .toggle-slider:before {
   background-color: #f8fafc;
 }
 
-/* Badges */
+/* Badges (Subtle, Restrained Minimalist Indicators) */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 2px 8px;
+  gap: 6px;
+  padding: 3px 9px;
   border-radius: var(--radius-full);
-  font-size: 0.7rem;
+  font-size: 0.69rem;
   font-weight: 700;
-}
-
-.badge-allowed {
-  background: var(--status-allowed-bg);
-  color: var(--status-allowed);
-  border: 1px solid var(--status-allowed-border);
-}
-
-.badge-blocked {
-  background: var(--status-blocked-bg);
-  color: var(--status-blocked);
-  border: 1px solid var(--status-blocked-border);
-}
-
-.badge-hitl {
-  background: var(--status-hitl-bg);
-  color: var(--status-hitl);
-  border: 1px solid var(--status-hitl-border);
+  letter-spacing: 0.02em;
 }
 
 .badge-active {
-  background: var(--accent-primary-light);
-  color: var(--accent-primary);
-  border: 1px solid var(--accent-primary-border);
+  background: #f8fafc;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+.badge-active::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
 }
 
-.badge-paused {
-  background: var(--status-hitl-bg);
-  color: var(--status-hitl);
-  border: 1px solid var(--status-hitl-border);
+.badge-allowed {
+  background: #f8fafc;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+.badge-allowed::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+.badge-blocked {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fee2e2;
+}
+.badge-blocked::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ef4444;
+}
+
+.badge-hitl, .badge-paused {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fef3c7;
+}
+.badge-hitl::before, .badge-paused::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #f59e0b;
 }
 
 .badge-terminated {
-  background: var(--status-blocked-bg);
-  color: var(--status-blocked);
-  border: 1px solid var(--status-blocked-border);
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fee2e2;
+}
+.badge-terminated::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ef4444;
 }
 
 /* Meters */
@@ -1021,13 +1052,37 @@ input:checked + .toggle-slider:before {
 
 .meter-fill {
   height: 100%;
+  background-color: #0f172a;
   border-radius: var(--radius-full);
   transition: width 0.4s ease;
-  background-color: var(--accent-primary);
+}
+
+/* Tab Visual Banners (Sleek Illustrations for Tabs) */
+.tab-visual-banner {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 22px 28px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 24px;
+  align-items: center;
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.tab-visual-banner-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-xs);
 }
 
 .meter-fill.cyan, .meter-fill.purple, .meter-fill.emerald, .meter-fill.gold {
-  background-color: var(--accent-primary);
+  background-color: #0f172a;
 }
 
 .meter-fill.rose {

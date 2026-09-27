@@ -405,17 +405,29 @@ function renderSpendBudgetsPage() {
 }
 
 /* 5. KILL SWITCH PAGE */
+function getAgentIconSvg(type) {
+  if (type === 'travel') {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.6-.1-1.2.1-1.5.6l-.6.9c-.3.5-.2 1.1.3 1.5L8 13.5l-3 3-2.5-.5c-.4-.1-.8.1-1 .4l-.3.4c-.2.4-.1.8.2 1.1l3.2 3.2c.3.3.7.4 1.1.2l.4-.3c.3-.2.5-.6.4-1l-.5-2.5 3-3 3.8 4.5c.4.5 1 .6 1.5.3l.9-.6c.5-.3.7-.9.6-1.5z"/></svg>`;
+  } else if (type === 'servicing') {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>`;
+  } else {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 1 0-5C13 2 12 7 12 7z"/></svg>`;
+  }
+}
+
 function renderKillSwitchPage() {
   const cont = document.getElementById("individual-kill-switches");
   if (!cont) return;
 
   cont.innerHTML = Object.values(state.agents).map(a => `
     <div class="glass-panel" style="text-align: center; border-color: ${a.status === 'ACTIVE' ? 'var(--border-card)' : 'var(--status-blocked-border)'};">
-      <div style="font-size: 1.4rem; margin-bottom: 6px;">${a.type === 'travel' ? '✈️' : a.type === 'servicing' ? '🎧' : '🎁'}</div>
-      <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-primary);">${a.name}</h4>
+      <div style="display: flex; justify-content: center; align-items: center; width: 44px; height: 44px; margin: 0 auto 10px auto; background: #f8fafc; border: 1px solid var(--border-light); border-radius: 50%; color: #000000;">
+        ${getAgentIconSvg(a.type)}
+      </div>
+      <h4 style="font-size: 1rem; font-weight: 800; color: #000000;">${a.name}</h4>
       <span style="font-size: 0.72rem; color: var(--text-muted); font-family: monospace;">${a.id}</span>
       <div style="margin: 14px 0;">
-        <span class="badge ${a.status === 'ACTIVE' ? 'badge-active' : 'badge-terminated'}">&bull; ${a.status}</span>
+        <span class="badge ${a.status === 'ACTIVE' ? 'badge-active' : 'badge-terminated'}">${a.status}</span>
       </div>
       <button class="${a.status === 'ACTIVE' ? 'btn-danger' : 'btn-primary'}" style="width: 100%; justify-content: center; font-size: 0.75rem;" onclick="toggleAgentPause('${a.id}')">
         ${a.status === 'ACTIVE' ? 'Sever Agent Connection' : 'Restore Agent'}
@@ -477,21 +489,21 @@ function openExplainerModal(actionId) {
 function verifyLedgerIntegrity() {
   showToast("Re-evaluating SHA-256 chain from Genesis block...", "info");
   setTimeout(() => {
-    showToast("✅ Cryptographic Verification Complete: 100% Tamper Evident (All Hashes Match)", "success");
+    showToast("Cryptographic Verification Complete: 100% Tamper Evident (All Hashes Match)", "success");
   }, 450);
 }
 
 function simulateTamperAttack() {
-  alert("⚠️ SIMULATING AN ATTACKER MODIFYING A TRANSACTION:\n\nWe will alter Block #1 from ₹20,000 to ₹2,000 in memory without regenerating the hash chain.\nWatch the verification algorithm immediately detect tampering!");
+  alert("SIMULATING AN ATTACKER MODIFYING A TRANSACTION:\n\nWe will alter Block #1 from ₹20,000 to ₹2,000 in memory without regenerating the hash chain.\nWatch the verification algorithm immediately detect tampering!");
   
-  showToast("🚨 INTEGRITY FAULT: SHA-256 Block #1 hash mismatch! Tamper detected at Block #1 prev_hash link!", "error");
+  showToast("INTEGRITY FAULT: SHA-256 Block #1 hash mismatch! Tamper detected at Block #1 prev_hash link!", "error");
 }
 
 // ============================================================================
 // EMERGENCY KILL SWITCH
 // ============================================================================
 async function triggerMasterKillSwitch() {
-  const confirmed = confirm("🚨 MASTER CIRCUIT BREAKER:\nAre you sure you want to halt the entire financial agent fleet? All actions will immediately be blocked fail-closed.");
+  const confirmed = confirm("MASTER CIRCUIT BREAKER:\nAre you sure you want to halt the entire financial agent fleet? All actions will immediately be blocked fail-closed.");
   if (!confirmed) return;
 
   state.globalKillActive = true;
@@ -505,7 +517,7 @@ async function triggerMasterKillSwitch() {
     statusText.style.color = "#f43f5e";
   }
 
-  showToast("🚨 MASTER CIRCUIT BREAKER FIRED: Entire fleet terminated!", "error");
+  showToast("MASTER CIRCUIT BREAKER FIRED: Entire fleet terminated!", "error");
 
   // Call backend API
   try {
@@ -894,7 +906,12 @@ function showToast(msg, type = "info") {
 
   const t = document.createElement("div");
   t.className = `toast ${type}`;
-  t.innerHTML = `<span>${type === 'error' ? '🚨' : type === 'success' ? '✅' : 'ℹ️'}</span><span>${msg}</span>`;
+  const iconSvg = type === 'error'
+    ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+    : type === 'success'
+    ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`
+    : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
+  t.innerHTML = `<span style="display:flex;align-items:center;">${iconSvg}</span><span>${msg}</span>`;
   cont.appendChild(t);
 
   setTimeout(() => {
